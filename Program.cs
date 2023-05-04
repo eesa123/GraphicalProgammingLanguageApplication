@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace GraphicalProgammingLanguage
 {
+    /// <summary>
+    /// Program class to allow for entry point.
+    /// </summary>
     internal static class Program
     {
         /// <summary>
