@@ -32,12 +32,20 @@ namespace GraphicalProgammingLanguage
             InitializeComponent();
             this.display.Image = new Bitmap(Size.Width, Size.Height);
         }
-
+        /// <summary>
+        /// Method that handles when run button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void runButton(object sender, EventArgs e)
         {
             Console.WriteLine("Run");
         }
-
+        /// <summary>
+        /// Method that loads text files into command panel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void loadButton(object sender, EventArgs e)
         {
             if (openFile.ShowDialog() == DialogResult.OK)
@@ -56,18 +64,43 @@ namespace GraphicalProgammingLanguage
                 }
             }
         }
+        /// <summary>
+        /// Method that resets command panel and command line to empty text boxes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clearButton(object sender, EventArgs e)
         {
             this.CommandPanel.ResetText();
             this.CommandLine.ResetText();
         }
+        /// <summary>
+        /// Method that will check user input and the syntax and display any errors.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void syntaxButton(object sender, EventArgs e)
         {
             Console.WriteLine("Syntax");
         }
+        /// <summary>
+        /// Saves current text in command panel to a text file in a location chosen by the user. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveButton(object sender, EventArgs e)
         {
-            Console.WriteLine("Save");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text File | *.txt";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (Stream s = File.Open(saveFileDialog.FileName, FileMode.CreateNew))
+                using (StreamWriter sw = new StreamWriter(s))
+                {
+                    sw.Write(this.CommandPanel.Text);
+                }
+                MessageBox.Show("Your File has been saved Sucessfully");
+            }
         }
     }
 }
