@@ -42,7 +42,8 @@ namespace GraphicalProgammingLanguage
         }
         private void clearButton(object sender, EventArgs e)
         {
-            Console.WriteLine("Clear");
+            this.CommandPanel.ResetText();
+            this.CommandLine.ResetText();
         }
         private void syntaxButton(object sender, EventArgs e)
         {
