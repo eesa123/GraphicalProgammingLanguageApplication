@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace GraphicalProgammingLanguage
 
         private Shape shape1; // used in producing shapes
         private ShapeTypes factory = new ShapeTypes();// used to determine shape type of command
+        OpenFileDialog openFile = new OpenFileDialog();// used for opening files
         public Form1()
         {
             InitializeComponent();
@@ -38,7 +40,21 @@ namespace GraphicalProgammingLanguage
 
         private void loadButton(object sender, EventArgs e)
         {
-            Console.WriteLine("Load");
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                this.CommandPanel.Clear();
+                String line = "";
+                StreamReader sr = new StreamReader(openFile.FileName);
+                while (line != null)
+                {
+                    line = sr.ReadLine();
+                    if (line != null)
+                    {
+                        this.CommandPanel.Text += line;
+                        this.CommandPanel.Text += "\r\n";
+                    }
+                }
+            }
         }
         private void clearButton(object sender, EventArgs e)
         {
