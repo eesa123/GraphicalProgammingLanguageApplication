@@ -39,7 +39,25 @@ namespace GraphicalProgammingLanguage
         /// <param name="e"></param>
         private void runButton(object sender, EventArgs e)
         {
-            Console.WriteLine("Run");
+            if (this.CommandPanel.Text != null || this.CommandPanel.Text != "")
+            {
+                CommandValidator validate = new CommandValidator(CommandPanel);
+                if (!validate.doesInvalidCommandExists())
+                {
+                    MessageBox.Show("Everything is working fine");
+                    //parseCommands(); Implement Command parser
+                }
+
+            }
+            else if (this.CommandLine.Text != null || this.CommandLine.Text != "") 
+            {
+                CommandValidator validate = new CommandValidator(CommandLine);
+                if (!validate.doesInvalidCommandExists())
+                {
+                    MessageBox.Show("Everything is working fine");
+                    //parseCommands(); Implement Command parser
+                }
+            }
         }
         /// <summary>
         /// Method that loads text files into command panel.
@@ -81,7 +99,23 @@ namespace GraphicalProgammingLanguage
         /// <param name="e"></param>
         private void syntaxButton(object sender, EventArgs e)
         {
-            Console.WriteLine("Syntax");
+            if (this.CommandPanel.Text != null || this.CommandPanel.Text != "")
+            {
+                CommandValidator validate = new CommandValidator(CommandPanel);
+                if (!validate.doesInvalidCommandExists())
+                {
+                    MessageBox.Show("Syntax has no errors.");
+                }
+
+            }
+            else if (this.CommandLine.Text != null || this.CommandLine.Text != "")
+            {
+                CommandValidator validate = new CommandValidator(CommandLine);
+                if (!validate.doesInvalidCommandExists())
+                {
+                    MessageBox.Show("Syntax has no errors.");
+                }
+            }
         }
         /// <summary>
         /// Saves current text in command panel to a text file in a location chosen by the user. 

@@ -25,7 +25,6 @@ namespace GraphicalProgammingLanguage
         }
         public Square() { }
 
-
         public override void Draw(Graphics g, Pen pen, Brush brush)
         {
             base.Draw(g, pen, brush);
