@@ -76,7 +76,7 @@ namespace GraphicalProgammingLanguage
                 oneLineCommand = oneLineCommand.Trim();
                 if (!oneLineCommand.Equals(""))
                 {
-                    hasLoop = Regex.IsMatch(oneLineCommand.ToLower(), @"\bfor\b") || Regex.IsMatch(oneLineCommand.ToLower(), @"\bwhile\b");
+                    hasLoop = Regex.IsMatch(oneLineCommand.ToLower(), @"\for\b") || Regex.IsMatch(oneLineCommand.ToLower(), @"\bwhile\b");
                     if (hasLoop)
                     {
                         loopcount = (i + 1);
