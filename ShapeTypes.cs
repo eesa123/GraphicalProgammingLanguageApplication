@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,20 +13,15 @@ namespace GraphicalProgammingLanguage
     class ShapeTypes
     {
         /// <summary>
-        /// Allows program to evaluate the type of shape and return a new object of the give type.
+        /// Allows program to evaluate the type of shape and draw the shape.
         /// </summary>
         /// <param name="shapeType"></param>
         /// <returns></returns>
-        public Shape getShape(String shapeType)
+        public static void draw(ArrayList shapes, System.Drawing.Graphics graphics, System.Drawing.Pen drawingPen, System.Drawing.Brush drawingBrush)
         {
-            shapeType = shapeType.ToLower().Trim();
-            if (shapeType.Equals("rectangle"))
-            {
-                return new Rectangle();
-
+            foreach (Shape shape in shapes) {
+                shape.Draw(graphics, drawingPen, drawingBrush);
             }
-            return new Square();// This is simply just placeholder once other shapes are added there will be more
-            //TODO: Return error message for when shape type is incorrect.
         }
     }
 }

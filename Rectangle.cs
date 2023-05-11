@@ -21,7 +21,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Rectangle(int x, int y, int width, int height) : base(x, y)
+        public Rectangle(int x, int y, int width, int height, bool filledIn) : base(x, y, filledIn)
         {
 
             this.width = width;
@@ -35,8 +35,6 @@ namespace GraphicalProgammingLanguage
         public override void set(params int[] list)
         {
             base.set(list[0], list[1]);
-            this.width = width;
-            this.height = height;
         }
         /// <summary>
         /// Calls FillRectangle and DrawRectangle to draw rectangle shape at specified co-ordinates.
@@ -46,7 +44,11 @@ namespace GraphicalProgammingLanguage
         /// <param name="brush"></param>
         public override void Draw(Graphics g, Pen pen, Brush brush)
         {
-            g.FillRectangle(brush, x, y, width, height);
+            if (filledIn)
+            {
+               g.FillRectangle(brush, x, y, width, height);
+                return;
+            }
             g.DrawRectangle(pen, x, y, width, height);
         }
     }

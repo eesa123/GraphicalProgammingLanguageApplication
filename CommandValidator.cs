@@ -15,9 +15,9 @@ namespace GraphicalProgammingLanguage
     class CommandValidator
     {
         private int loopend; //used in loop to determine loop end value
-        private int loopcount;//used in loop to determine loop current iteration value
-        private int ifCount;
-        private int ifEnd;
+        private int loopcount;//used in loop to determine loop number of lines value
+        private int ifCount;//used in if to determine if number of lines value
+        private int ifEnd;//used in if to determine if end line value
 
         private int lineNumber = 0;    // used to show what lines the errors are on
 
@@ -76,7 +76,7 @@ namespace GraphicalProgammingLanguage
                 oneLineCommand = oneLineCommand.Trim();
                 if (!oneLineCommand.Equals(""))
                 {
-                    hasLoop = Regex.IsMatch(oneLineCommand.ToLower(), @"\bfor\b") || Regex.IsMatch(oneLineCommand.ToLower(), @"\bwhile\b");
+                    hasLoop = Regex.IsMatch(oneLineCommand.ToLower(), @"\bfor\b");
                     if (hasLoop)
                     {
                         loopcount = (i + 1);
@@ -113,6 +113,14 @@ namespace GraphicalProgammingLanguage
             if (loopcount > 0)
             {
                 hasEndIf = true;
+            }
+            if (lineNumber > loopend) 
+            { 
+                hasLoop = false; 
+            }
+            if (lineNumber > ifEnd)
+            {
+                hasIf = false;
             }
             if (hasLoop)
             {
@@ -154,7 +162,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="command"></param>
         public void checkLineValidation(string command)
         {
-            String[] keyword = { "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "while", "if", "endif", "endloop", "var", "colour" };
+            String[] keyword = { "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "colour", "fillIn" };
             String[] shapes = { "circle", "rectangle", "triangle", "square" };
             String[] operators = { "==", ">", "<", ">=", "=<", "!=" };
             command = Regex.Replace(command, @"\s+", " ");
@@ -188,6 +196,10 @@ namespace GraphicalProgammingLanguage
                                     checkIfVariableDefined(args[1]);
                                 }
                             }
+                            else if (isInt && int.Parse(args[1]) <= 0)
+                            {
+                                isValid = false;
+                            }
                         }
                         else
                         {
@@ -197,7 +209,7 @@ namespace GraphicalProgammingLanguage
                     else if (args[0].ToLower().Equals("colour"))
                     {
                         String subCommand = command.Substring(6, (command.Length - 6));
-                        String[] parms = subCommand.Split(',');
+                        String[] parms = subCommand.Trim().Split(' ');
 
                         if (parms.Length == 3)
                         {
@@ -213,8 +225,12 @@ namespace GraphicalProgammingLanguage
                                     Boolean isVariable = variables.Contains(parms[i].ToLower());
                                     if (isVariable)
                                     {
-                                        checkIfVariableDefined(args[1]);
+                                        checkIfVariableDefined(parms[i]);
                                     }
+                                }
+                                else if (isInt && int.Parse(parms[i]) < 0)
+                                {
+                                    isValid = false;
                                 }
                             }
                         }
@@ -226,7 +242,7 @@ namespace GraphicalProgammingLanguage
                     else if (args[0].ToLower().Equals("rectangle"))
                     {
                         String subCommand = command.Substring(9, (command.Length - 9));
-                        String[] parms = subCommand.Split(',');
+                        String[] parms = subCommand.Trim().Split(' ');
 
                         if (parms.Length == 2)
                         {
@@ -242,8 +258,12 @@ namespace GraphicalProgammingLanguage
                                     Boolean isVariable = variables.Contains(parms[i].ToLower());
                                     if (isVariable)
                                     {
-                                        checkIfVariableDefined(args[1]);
+                                        checkIfVariableDefined(parms[i]);
                                     }
+                                }
+                                else if (isInt && int.Parse(parms[i]) <= 0)
+                                {
+                                    isValid = false;
                                 }
                             }
                         }
@@ -255,7 +275,7 @@ namespace GraphicalProgammingLanguage
                     else if (args[0].ToLower().Equals("triangle"))
                     {
                         String subCommand = command.Substring(8, (command.Length - 8));
-                        String[] parms = subCommand.Split(',');
+                        String[] parms = subCommand.Trim().Split(' ');
 
                         if (parms.Length == 3)
                         {
@@ -266,7 +286,11 @@ namespace GraphicalProgammingLanguage
                                 isInt = parms[i].All(char.IsDigit);
                                 if (!isInt)
                                 {
-                                    checkIfVariableDefined(args[1]);
+                                    checkIfVariableDefined(parms[i]);
+                                }
+                                else if (isInt && int.Parse(parms[i]) <= 0)
+                                {
+                                    isValid = false;
                                 }
                             }
                         }
@@ -290,13 +314,16 @@ namespace GraphicalProgammingLanguage
                                     checkIfVariableDefined(args[1]);
                                 }
                             }
+                            else if (isInt && int.Parse(args[1]) <= 0)
+                            {
+                                isValid = false;
+                            }
                         }
                         else
                         {
                             isValid = false;
                         }
                     }
-                    else { }
                 }
                 else if (firstWord.Equals("end"))
                 {
@@ -308,6 +335,20 @@ namespace GraphicalProgammingLanguage
                         }
                     }
                     else
+                    {
+                        isValid = false;
+                    }
+                }
+                else if (firstWord.Equals("fillIn") || firstWord.Equals("fill"))
+                {
+                    if (args.Length == 2)
+                    {
+                        if (!args[1].ToLower().Equals("in"))
+                        {
+                            isValid = false;
+                        }
+                    }
+                    else if (firstWord.Equals("fillIn") && args.Length > 1)
                     {
                         isValid = false;
                     }
@@ -328,6 +369,10 @@ namespace GraphicalProgammingLanguage
                             {
                                 isValid = false;
                             }
+                        }
+                        else if (isInt && int.Parse(args[1]) <= 0)
+                        {
+                            isValid = false;
                         }
                     }
                     else
@@ -366,37 +411,6 @@ namespace GraphicalProgammingLanguage
                     }
 
                 }
-                else if (firstWord.Equals("while"))
-                {
-                    if (args.Length == 5)
-                    {
-                        if (variables.Contains(args[1].ToLower())) // indefinite while loops will be created if no variable is used and an integer is instead
-                        {
-                            if (operators.Contains(args[2].ToLower()))
-                            {
-                                Boolean isInt = args[3].All(char.IsDigit);
-                                if (isInt)
-                                {
-                                    if (args[4].ToLower().Equals("then"))
-                                    {
-                                        isValid = true;
-                                    }
-                                    else { isValid = false; }
-                                }
-                                else { isValid = false; }
-
-                            }
-                            else { isValid = false; }
-                        }
-                        else { isValid = false; }
-
-                    }
-                    else
-                    {
-                        isValid = false;
-                    }
-
-                }
                 else if (firstWord.Equals("endif") || firstWord.Equals("endloop"))
                 {
                     if (args.Length != 1)
@@ -406,8 +420,8 @@ namespace GraphicalProgammingLanguage
                 }
                 else if (firstWord.Equals("drawto") || firstWord.Equals("moveto"))
                 {
-                    String subCommand = command.Substring(6, (command.Length - 6));
-                    String[] parms = subCommand.Split(',');
+                    String subCommand = command.Substring(6, (command.Length - 6)).Trim();
+                    String[] parms = subCommand.Split(' ');
 
                     if (parms.Length == 2)
                     {
@@ -418,7 +432,11 @@ namespace GraphicalProgammingLanguage
                             isInt = parms[i].All(char.IsDigit);
                             if (!isInt)
                             {
-                                checkIfVariableDefined(args[1]);
+                                checkIfVariableDefined(parms[i]);
+                            }
+                            else if (isInt && int.Parse(parms[i]) < 0)
+                            {
+                                isValid = false;
                             }
                         }
                     }
@@ -430,7 +448,7 @@ namespace GraphicalProgammingLanguage
                 else if (firstWord.Equals("var"))
                 {
                     String subCommand = command.Substring(3, (command.Length - 3));
-                    String[] parms = subCommand.Split('=');
+                    String[] parms = subCommand.Trim().Split('=');
 
                     if (parms.Length == 2)
                     {
@@ -438,6 +456,10 @@ namespace GraphicalProgammingLanguage
                         parms[0] = parms[0].Trim();
                         isInt = parms[1].Trim().All(char.IsDigit);
                         if (variables.Contains(parms[0]) || !isInt)
+                        {
+                            isValid = false;
+                        }
+                        else if (isInt && int.Parse(parms[1].Trim()) < 0)
                         {
                             isValid = false;
                         }
@@ -449,10 +471,11 @@ namespace GraphicalProgammingLanguage
                     if (isValid)
                     {
                         variables[varCounter] = parms[0].ToLower();
-                        variableValues[varCounter] = int.Parse(parms[1]);
+                        variableValues[varCounter] = int.Parse(parms[1].Trim());
                         varCounter++;
                     }
                 }
+                else { isValid = false;  }
             }
             if (!isValid)
             {
@@ -466,19 +489,20 @@ namespace GraphicalProgammingLanguage
             if (variables[0] == null) { isValid = false;  return; } // first element is null therefore no variables defined.
             for (int i = 0; i<variables.Length; i++)  
             {
-                if (variables[i].ToLower().Equals(variable.ToLower()))
+                if (variables[i] == null) { break; } // reached null objects meaning no more variables so break
+                else if (variables[i].ToLower().Equals(variable.ToLower()))
                 {
                     value = variableValues[i];
-                    if (value == -10000)
+                    if (value < 0)
                     {
                         MessageBox.Show("Variable is not defined");
                         isValid = false;
-                        continue;
+                        return;
                     }
                 }
 
             }
-            if (value == -10000)
+            if (value < 0)
             {
                 MessageBox.Show("Variable is not defined");
                 isValid = false;

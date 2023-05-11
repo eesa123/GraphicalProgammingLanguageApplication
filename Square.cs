@@ -19,7 +19,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="length"></param>
-        public Square(int x, int y, int length) : base(x, y, length, length)
+        public Square(int x, int y, int length, bool filledIn) : base(x, y, length, length, filledIn)
         {
             this.length = length;
         }

@@ -32,11 +32,10 @@
             this.Run = new System.Windows.Forms.Button();
             this.CommandLine = new System.Windows.Forms.TextBox();
             this.Load = new System.Windows.Forms.Button();
-            this.display = new System.Windows.Forms.PictureBox();
             this.Clear = new System.Windows.Forms.Button();
             this.Syntax = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
+            this.display = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // CommandPanel
@@ -78,16 +77,6 @@
             this.Load.UseVisualStyleBackColor = true;
             this.Load.Click += new System.EventHandler(this.loadButton);
             // 
-            // display
-            // 
-            this.display.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.display.Location = new System.Drawing.Point(592, 15);
-            this.display.Margin = new System.Windows.Forms.Padding(4);
-            this.display.Name = "display";
-            this.display.Size = new System.Drawing.Size(443, 353);
-            this.display.TabIndex = 7;
-            this.display.TabStop = false;
-            // 
             // Clear
             // 
             this.Clear.Location = new System.Drawing.Point(147, 430);
@@ -118,15 +107,23 @@
             this.Save.UseVisualStyleBackColor = true;
             this.Save.Click += new System.EventHandler(this.saveButton);
             // 
+            // display
+            // 
+            this.display.Location = new System.Drawing.Point(592, 15);
+            this.display.BackColor = System.Drawing.Color.LightCyan;
+            this.display.Name = "display";
+            this.display.Size = new System.Drawing.Size(454, 352);
+            this.display.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.display);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Syntax);
             this.Controls.Add(this.Clear);
-            this.Controls.Add(this.display);
             this.Controls.Add(this.Load);
             this.Controls.Add(this.CommandLine);
             this.Controls.Add(this.Run);
@@ -134,7 +131,6 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.display)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,10 +142,10 @@
         private System.Windows.Forms.Button Run;
         private System.Windows.Forms.TextBox CommandLine;
         private new System.Windows.Forms.Button Load;
-        private System.Windows.Forms.PictureBox display;
         private System.Windows.Forms.Button Clear;
         private System.Windows.Forms.Button Syntax;
         private System.Windows.Forms.Button Save;
+        private System.Windows.Forms.Panel display;
     }
 }
 
