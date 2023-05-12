@@ -20,11 +20,11 @@ namespace GraphicalProgammingLanguage
         private string[] variables = new string[100]; //to store variable names
         private int[] variableValues = new int[100];//to store variable values
         private int varCounter = 0;//to store the current postion of the variables array/ how many variables have been defined
-        private int counter = 0;
-        private Graphics graphics;
-        private Pen drawingPen;
-        private Brush drawingBrush;
-        private bool filledIn = false;
+        private int counter = 0;// used to find the number of iterations for a for loop command
+        private Graphics graphics;// used for graphics on drawing panel to draw shapes
+        private Pen drawingPen;// used to draw shapes
+        private Brush drawingBrush;// used to draw and fill shapes
+        private bool fillIn = false;// used to track if brush is to be used or pen
         OpenFileDialog openFile = new OpenFileDialog();// used for opening files
 
         public Form1()
@@ -217,14 +217,14 @@ namespace GraphicalProgammingLanguage
                     {
                         width = getAssociatedVariableValue(args[1]);
                         height = getAssociatedVariableValue(args[2]);
-                        new Rectangle(x, y, width, height, filledIn).Draw(graphics, drawingPen, drawingBrush);
+                        new Rectangle(x, y, width, height, fillIn).Draw(graphics, drawingPen, drawingBrush);
 
                     }
                     else
                     {
                         int.TryParse(args[1], out width);
                         int.TryParse(args[2], out height);
-                        new Rectangle(x, y, width, height, filledIn).Draw(graphics, drawingPen, drawingBrush);
+                        new Rectangle(x, y, width, height, fillIn).Draw(graphics, drawingPen, drawingBrush);
                     }
                     break;
                 case "square":
@@ -232,12 +232,12 @@ namespace GraphicalProgammingLanguage
                     if (!int.TryParse(args[1], out _))
                     {
                         side = getAssociatedVariableValue(args[1]);
-                        new Square(x, y, side, filledIn).Draw(graphics, drawingPen, drawingBrush);
+                        new Square(x, y, side, fillIn).Draw(graphics, drawingPen, drawingBrush);
                     }
                     else
                     {
                         int.TryParse(args[1], out side);
-                        new Square(x, y, side, filledIn).Draw(graphics, drawingPen, drawingBrush);
+                        new Square(x, y, side, fillIn).Draw(graphics, drawingPen, drawingBrush);
                     }
 
                     break;
@@ -315,7 +315,10 @@ namespace GraphicalProgammingLanguage
                     graphics.Dispose();
                     break;
                 case "fillIn":
-                    filledIn = true;
+                    fillIn = true;
+                    break;
+                case "Unfill":
+                    fillIn = false;
                     break;
                 case "moveto":
 

@@ -162,7 +162,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="command"></param>
         public void checkLineValidation(string command)
         {
-            String[] keyword = { "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "colour", "fillIn" };
+            String[] keyword = { "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "colour", "fillIn", "unfill" };
             String[] shapes = { "circle", "rectangle", "triangle", "square" };
             String[] operators = { "==", ">", "<", ">=", "=<", "!=" };
             command = Regex.Replace(command, @"\s+", " ");
@@ -353,6 +353,10 @@ namespace GraphicalProgammingLanguage
                         isValid = false;
                     }
                 }
+                else if (firstWord.Equals("unfill") && args.Length > 1)
+                    {
+                        isValid = false;
+                    }
                 else if (firstWord.Equals("for"))
                 {
                     if (args.Length == 2)
