@@ -92,6 +92,8 @@ namespace GraphicalProgammingLanguage
         {
             this.CommandPanel.ResetText();
             this.CommandLine.ResetText();
+            this.display.Refresh();
+            this.x = this.y = 0;
         }
         /// <summary>
         /// Method that will check user input and the syntax and display any errors.
@@ -178,7 +180,6 @@ namespace GraphicalProgammingLanguage
 
         public void runCommand(String command, TextBox commands)
         {
-            ArrayList shapes = new ArrayList();
             string[] args = command.Split(' '); //split args
             //removing white spaces in between words
             for (int i = 0; i < args.Length; i++)
@@ -216,14 +217,14 @@ namespace GraphicalProgammingLanguage
                     {
                         width = getAssociatedVariableValue(args[1]);
                         height = getAssociatedVariableValue(args[2]);
-                        shapes.Add(new Rectangle(x, y, width, height, filledIn));
+                        new Rectangle(x, y, width, height, filledIn).Draw(graphics, drawingPen, drawingBrush);
 
                     }
                     else
                     {
                         int.TryParse(args[1], out width);
                         int.TryParse(args[2], out height);
-                        shapes.Add(new Rectangle(x, y, width, height, filledIn));
+                        new Rectangle(x, y, width, height, filledIn).Draw(graphics, drawingPen, drawingBrush);
                     }
                     break;
                 case "square":
@@ -231,12 +232,12 @@ namespace GraphicalProgammingLanguage
                     if (!int.TryParse(args[1], out _))
                     {
                         side = getAssociatedVariableValue(args[1]);
-                        shapes.Add(new Square(x, y, side, filledIn));
+                        new Square(x, y, side, filledIn).Draw(graphics, drawingPen, drawingBrush);
                     }
                     else
                     {
                         int.TryParse(args[1], out side);
-                        shapes.Add(new Square(x, y, side, filledIn));
+                        new Square(x, y, side, filledIn).Draw(graphics, drawingPen, drawingBrush);
                     }
 
                     break;
@@ -404,7 +405,6 @@ namespace GraphicalProgammingLanguage
                     }
                     break;
             }
-            ShapeTypes.draw(shapes, graphics, drawingPen, drawingBrush);
         }
 
         private int GetIfStartLineNumber(TextBox commands)
