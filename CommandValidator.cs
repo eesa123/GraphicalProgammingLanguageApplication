@@ -178,7 +178,7 @@ namespace GraphicalProgammingLanguage
             Boolean firstWordIsKeyword = keyword.Contains(firstWord);
             if (firstWordIsKeyword)
             {
-                Boolean firstWordIsShape = shapes.Contains(args[0].ToLower());
+                Boolean firstWordIsShape = shapes.Contains(args[0].ToLower()); //TODO add error messages for each invalid command types
                 if (firstWordIsShape)
                 {
                     if (args[0].ToLower().Equals("circle"))
@@ -481,6 +481,7 @@ namespace GraphicalProgammingLanguage
                 }
                 else { isValid = false;  }
             }
+            else { isValid = false; }
             if (!isValid)
             {
                 invalidCommandExists = true;
