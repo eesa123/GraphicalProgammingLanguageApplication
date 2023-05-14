@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace GraphicalProgammingLanguage
 {
@@ -27,6 +22,9 @@ namespace GraphicalProgammingLanguage
             this.width = width;
             this.height = height;
         }
+        /// <summary>
+        /// Empty constructor used for Factory class.
+        /// </summary>
         public Rectangle() { }
         /// <summary>
         /// Sets x and y co ordinates as well as width and height attributes.
@@ -35,13 +33,15 @@ namespace GraphicalProgammingLanguage
         public override void set(params int[] list)
         {
             base.set(list[0], list[1]);
+            this.width = list[2];
+            this.height = list[3];
         }
         /// <summary>
         /// Calls FillRectangle and DrawRectangle to draw rectangle shape at specified co-ordinates.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="pen"></param>
-        /// <param name="brush"></param>
+        /// <param name="g"> Graphics for the drawing panel</param>
+        /// <param name="pen"> Drawing pen for drawing shape outlines</param>
+        /// <param name="brush"> Drawing brush used for filling in shapes</param>
         public override void Draw(Graphics g, Pen pen, Brush brush)
         {
             if (filledIn)

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace GraphicalProgammingLanguage
 {
     /// <summary>
     /// Square class that inherits from Rectangle as drawing methods are the same.
     /// </summary>
-    class Square : Rectangle
+    class Square : Rectangle // As Sqaures are essentially rectangles with the same width and height we can use it as the parent class.
     {
         readonly int length;
         /// <summary>
@@ -22,12 +17,6 @@ namespace GraphicalProgammingLanguage
         public Square(int x, int y, int length, bool filledIn) : base(x, y, length, length, filledIn)
         {
             this.length = length;
-        }
-        public Square() { }
-
-        public override void Draw(Graphics g, Pen pen, Brush brush)
-        {
-            base.Draw(g, pen, brush);
         }
     }
 }

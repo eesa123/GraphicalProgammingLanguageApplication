@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace GraphicalProgammingLanguage
 {
@@ -12,8 +7,8 @@ namespace GraphicalProgammingLanguage
     /// </summary>
     abstract class Shape
     {
-        protected int x, y;
-        protected bool filledIn;
+        protected int x, y;// x and y co-ordinates in the drawing panel and the pen position.
+        protected bool filledIn; // Used to determine if shape is filled in using brush or not.
         public Shape(int x, int y, bool filledIn)
         {
 
@@ -22,9 +17,11 @@ namespace GraphicalProgammingLanguage
             this.filledIn = filledIn;
         }
 
-        public Shape()
-        {
-        }
+        /// <summary>
+        /// Used to allow empty constructors for child classes.
+        /// </summary>
+        public Shape(){}
+
         /// <summary>
         /// Sets the x co ordinate and y co ordinate for the shape drawing start (pen position)
         /// </summary>
@@ -36,6 +33,7 @@ namespace GraphicalProgammingLanguage
             this.y = list[1];
 
         }
+
         /// <summary>
         /// Virtual method to set triangle parameters, this will be ovewritten in the triangle class.
         /// </summary>
@@ -48,13 +46,15 @@ namespace GraphicalProgammingLanguage
             this.y = y;
 
         }
+
         /// <summary>
         /// Abstract method to tell the child classes what arguments should be given for this method.
         /// </summary>
-        /// <param name="g"></param>
-        /// <param name="pen"></param>
-        /// <param name="brush"></param>
+        /// <param name="g"> Graphics for the drawing panel</param>
+        /// <param name="pen"> Drawing pen for drawing shape outlines</param>
+        /// <param name="brush"> Drawing brush used for filling in shapes</param>
         public abstract void Draw(Graphics g, Pen pen, Brush brush);
+
         /// <summary>
         /// Standard ToString Method.
         /// </summary>

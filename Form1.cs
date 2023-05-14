@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -16,7 +14,6 @@ namespace GraphicalProgammingLanguage
 
         private int x, y = 1;//default draw position
         private Color pencol = Color.Black;//universal colour for pen
-        private int loopcount;//used in loop to determine loop number of lines value
         private string[] variables = new string[100]; //to store variable names
         private int[] variableValues = new int[100];//to store variable values
         private int varCounter = 0;//to store the current postion of the variables array/ how many variables have been defined
@@ -42,7 +39,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="e"></param>
         private void runButton(object sender, EventArgs e)
         {
-            if (this.CommandPanel.Text != null || this.CommandPanel.Text != "")
+            if (this.CommandPanel.Text != null && !this.CommandPanel.Text.Equals("")) // if command panel has text then take commands from there only.
             {
                 CommandValidator validate = new CommandValidator(CommandPanel);
                 if (!validate.doesInvalidCommandExists())
@@ -51,10 +48,10 @@ namespace GraphicalProgammingLanguage
                 }
 
             }
-            else if (this.CommandLine.Text != null || this.CommandLine.Text != "") 
+            else if (this.CommandLine.Text != null && !this.CommandLine.Text.Equals("")) // if command panel has no text then run command line command.
             {
                 CommandValidator validate = new CommandValidator(CommandLine);
-                if (!validate.doesInvalidCommandExists())
+                if (!validate.doesInvalidCommandExists()) // if any invalid commands then no commands are run/parsed.
                 {
                     parseCommands(CommandLine);
                 }
@@ -69,16 +66,15 @@ namespace GraphicalProgammingLanguage
         {
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                this.CommandPanel.Clear();
-                String line = "";
+                this.CommandPanel.Clear();// make sure command panel has no text before loading.
+                string line = "";
                 StreamReader sr = new StreamReader(openFile.FileName);
                 while (line != null)
                 {
                     line = sr.ReadLine();
                     if (line != null)
                     {
-                        this.CommandPanel.Text += line;
-                        this.CommandPanel.Text += "\r\n";
+                        this.CommandPanel.Text += line + "\r\n"; // add text to command panel and after every line add a new line.
                     }
                 }
             }
@@ -90,6 +86,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="e"></param>
         private void clearButton(object sender, EventArgs e)
         {
+            // clears text in both command panel and command line and refreshs the display and sets pen position back to starting position.
             this.CommandPanel.ResetText();
             this.CommandLine.ResetText();
             this.display.Refresh();
@@ -102,21 +99,22 @@ namespace GraphicalProgammingLanguage
         /// <param name="e"></param>
         private void syntaxButton(object sender, EventArgs e)
         {
-            if (this.CommandPanel.Text != null || this.CommandPanel.Text != "")
+            // Essentially the same as the run button but if the commands are valid displays a message telling them there are no errors.
+            if (this.CommandPanel.Text != null && !this.CommandPanel.Text.Equals(""))
             {
                 CommandValidator validate = new CommandValidator(CommandPanel);
                 if (!validate.doesInvalidCommandExists())
                 {
-                    MessageBox.Show("Syntax has no errors.");
+                    MessageBox.Show("Coammnds have no errors.");
                 }
 
             }
-            else if (this.CommandLine.Text != null || this.CommandLine.Text != "")
+            else if (this.CommandLine.Text != null && !this.CommandLine.Text.Equals(""))
             {
                 CommandValidator validate = new CommandValidator(CommandLine);
                 if (!validate.doesInvalidCommandExists())
                 {
-                    MessageBox.Show("Syntax has no errors.");
+                    MessageBox.Show("Command has no errors.");
                 }
             }
         }
@@ -131,22 +129,26 @@ namespace GraphicalProgammingLanguage
             saveFileDialog.Filter = "Text File | *.txt";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                using (Stream s = File.Open(saveFileDialog.FileName, FileMode.CreateNew))
+                using (Stream s = File.Open(saveFileDialog.FileName, FileMode.CreateNew)) // creates a new file and saves command panel text into it
                 using (StreamWriter sw = new StreamWriter(s))
                 {
-                    sw.Write(this.CommandPanel.Text);
+                    sw.Write(this.CommandPanel.Text); // using streamwriter command panel text is written into new file.
                 }
                 MessageBox.Show("Your File has been saved Sucessfully");
             }
         }
 
+        /// <summary>
+        /// Takes each command from textbox and and runs the command
+        /// </summary>
+        /// <param name="commands"></param>
         private void parseCommands(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
-
-            for (loopcount = 0; loopcount < numberOfLines; loopcount++)
+            // while the loopcount is less than the number of lines it will run the commands line by line.
+            for (int i = 0; i < numberOfLines; i++)
             {
-                String oneLineCommand = commands.Lines[loopcount];
+                string oneLineCommand = commands.Lines[i];
                 oneLineCommand = oneLineCommand.Trim();
                 if (!oneLineCommand.Equals(""))
                 {
@@ -178,7 +180,7 @@ namespace GraphicalProgammingLanguage
 
         }
 
-        public void runCommand(String command, TextBox commands)
+        public void runCommand(string command, TextBox commands)
         {
             string[] args = command.Split(' '); //split args
             //removing white spaces in between words
@@ -189,74 +191,28 @@ namespace GraphicalProgammingLanguage
 
             switch (args[0].ToLower())
             {
-                //case "circle":
-
-                //  int radius;
-                //   if (!int.TryParse(args[1], out radius))
-                //   {
-
-                //        radius = getAssociatedVariableValue(args[1]);
-                //       new Circle(x, y, radius).Draw(g, pen, brush);
-                //    }
-                //     else if (int.TryParse(element[1], out radius))
-                //      {
-                //          int.TryParse(element[1], out radius);
-                //         new Circle(x, y, radius).Draw(g, pen, brush);
-                //     }
-                //     else
-                //    {
-                //        MessageBox.Show("enter a radius or use a variable", "error");
-                //    }
-                //    break;
+                case "circle":
+                    int radius;
+                    radius = getAssociatedVariableValue(args[1]);
+                    new Circle(x, y, radius, fillIn).Draw(graphics, drawingPen, drawingBrush);
+                    break;
                 case "rectangle":
-
                     int width;
-
                     int height;
-                    if (!int.TryParse(args[1], out _) || !int.TryParse(args[2], out _))
-                    {
-                        width = getAssociatedVariableValue(args[1]);
-                        height = getAssociatedVariableValue(args[2]);
-                        new Rectangle(x, y, width, height, fillIn).Draw(graphics, drawingPen, drawingBrush);
-
-                    }
-                    else
-                    {
-                        int.TryParse(args[1], out width);
-                        int.TryParse(args[2], out height);
-                        new Rectangle(x, y, width, height, fillIn).Draw(graphics, drawingPen, drawingBrush);
-                    }
+                    width = getAssociatedVariableValue(args[1]);
+                    height = getAssociatedVariableValue(args[2]);
+                    new Rectangle(x, y, width, height, fillIn).Draw(graphics, drawingPen, drawingBrush);
                     break;
                 case "square":
                     int side;
-                    if (!int.TryParse(args[1], out _))
-                    {
-                        side = getAssociatedVariableValue(args[1]);
-                        new Square(x, y, side, fillIn).Draw(graphics, drawingPen, drawingBrush);
-                    }
-                    else
-                    {
-                        int.TryParse(args[1], out side);
-                        new Square(x, y, side, fillIn).Draw(graphics, drawingPen, drawingBrush);
-                    }
-
+                    side = getAssociatedVariableValue(args[1]);
+                    new Square(x, y, side, fillIn).Draw(graphics, drawingPen, drawingBrush);
                     break;
                 case "drawto":
                     int point1, point2;
-                    if (!int.TryParse(args[1], out _) || !int.TryParse(args[2], out _))
-                    {
-                        point1 = getAssociatedVariableValue(args[1]);
-                        point2 = getAssociatedVariableValue(args[2]);
-                        graphics.DrawLine(drawingPen, x, y, point1, point2);
-
-                    }
-                    else
-                    {
-                        int.TryParse(args[1], out point1);
-                        int.TryParse(args[2], out point2);
-                        graphics.DrawLine(drawingPen, x, y, point1, point2);
-
-                    }
+                    point1 = getAssociatedVariableValue(args[1]);
+                    point2 = getAssociatedVariableValue(args[2]);
+                    graphics.DrawLine(drawingPen, x, y, point1, point2);
                     break;
                 case "colour":
                     try
@@ -264,16 +220,12 @@ namespace GraphicalProgammingLanguage
                         int red;
                         int blue;
                         int green;
-                        if (!int.TryParse(args[1], out _) || !int.TryParse(args[2], out _) || !int.TryParse(args[3], out _))
-                        {
-                            red = getAssociatedVariableValue(args[1]);
-                            blue = getAssociatedVariableValue(args[2]);
-                            green = getAssociatedVariableValue(args[3]);
-                            pencol = Color.FromArgb(red, blue, green);
-                            drawingPen.Color = pencol;
-                            drawingBrush = new SolidBrush(pencol);
-
-                        }
+                        red = getAssociatedVariableValue(args[1]);
+                        blue = getAssociatedVariableValue(args[2]);
+                        green = getAssociatedVariableValue(args[3]);
+                        pencol = Color.FromArgb(red, blue, green);
+                        drawingPen.Color = pencol;
+                        drawingBrush = new SolidBrush(pencol);
                     }
                     catch
                     {
@@ -282,37 +234,25 @@ namespace GraphicalProgammingLanguage
                         drawingBrush = new SolidBrush(pencol);
                     }
                     break;
-                //case "triangle":
-                //    int p1, p2, p3;
+                case "triangle":
+                    int p1, p2, p3;
+                    p1 = getAssociatedVariableValue(args[1]);
+                    p2 = getAssociatedVariableValue(args[2]);
+                    p3 = getAssociatedVariableValue(args[3]);
+                    Point pointa1 = new Point(p1, p2);
+                    Point pointb1 = new Point(p2, p3);
+                    Point pointc1 = new Point(p3, p1);
 
-                //    if (!int.TryParse(args[1], out p1) || !int.TryParse(args[2], out p2) || !int.TryParse(args[3], out p3))
-                //    {
-                //        p1 = getAssociatedVariableValue(args[1]);
-                //        p2 = getAssociatedVariableValue(args[2]);
-                //        p3 = getAssociatedVariableValue(args[3]);
-                //        Point pointa1 = new Point(p1, p2);
-                //        Point pointb1 = new Point(p2, p3);
-                //        Point pointc1 = new Point(p3, p1);
-
-                //        Point[] pnt1 = { pointa1, pointb1, pointc1 };
-                //        new Triangle(pnt1).Draw(graphics, drawingPen, drawingBrush);
-                //    }
-                //    else
-                //    {
-                //        int.TryParse(args[1], out p1);
-                //        int.TryParse(args[2], out p2);
-                //        int.TryParse(args[3], out p3);
-                //        Point pointa1 = new Point(p1, p2);
-                //        Point pointb1 = new Point(p2, p3);
-                //        Point pointc1 = new Point(p3, p1);
-
-                //        Point[] pnt1 = { pointa1, pointb1, pointc1 };
-                //        new Triangle(pnt1).Draw(graphics, drawingPen, drawingBrush);
-                //    }
-                //    break;
+                    Point[] pnt1 = { pointa1, pointb1, pointc1 };
+                    new Triangle(pnt1, fillIn).Draw(graphics, drawingPen, drawingBrush);
+                    break;
                 case "clear":
                     graphics.Clear(Color.Transparent);
                     graphics.Dispose();
+                    break;
+                case "reset":
+                    x = 0;
+                    y = 0;
                     break;
                 case "fillIn":
                     fillIn = true;
@@ -321,42 +261,52 @@ namespace GraphicalProgammingLanguage
                     fillIn = false;
                     break;
                 case "moveto":
-
-                    if (int.TryParse(args[1], out _) && int.TryParse(args[2], out _))
-                    {
-                        int.TryParse(args[1], out x);
-                        int.TryParse(args[2], out y);
-                    }
-                    else
-                    {
-                        x = getAssociatedVariableValue(args[1]);
-                        y = getAssociatedVariableValue(args[2]);
-                    }
-
+                    x = getAssociatedVariableValue(args[1]);
+                    y = getAssociatedVariableValue(args[2]);                  
                     break;
                 case "var":
                     variables[varCounter] = args[1].ToLower();
                     variableValues[varCounter] = int.Parse(args[3].Trim());
                     varCounter++;
                     break;
+                case "factory":
+                    Shape shape = Factory.getShape(args[1]);
+                    Random random = new Random();
+                    if (args[1].ToLower().Trim() == "circle")
+                    {
+                        radius = random.Next(display.Width / 4);
+                        shape.set(x, y, radius);
+                    }
+                    else if (args[1].ToLower().Trim() == "rectangle" || args[1].ToLower().Trim() == "square")
+                    {
+                        width = random.Next(display.Width);
+                        height = random.Next(display.Height);
+                        if (args[1].ToLower().Trim() == "square") { height = width;}
+                        shape.set(x, y, width, height);
+                    }
+                    else if (args[1].ToLower().Trim() == "triangle")
+                    {
+                        p1 = random.Next(display.Width);
+                        p2 = random.Next(display.Width);
+                        p3 = random.Next(display.Width);
+                        Point pointa = new Point(p1, p2);
+                        Point pointb = new Point(p2, p3);
+                        Point pointc = new Point(p3, p1);
+                        Point[] pnt = { pointa, pointb, pointc };
+                        shape.setTriangle(x, y, pnt);
+                    }
+                    shape.Draw(graphics, drawingPen, drawingBrush);
+                    break;
                 case "for":
                     {
-                        if (int.TryParse(args[1], out _))
-                        {
-                            int.TryParse(args[1], out counter);
-                        }
-                        else
-                        {
-                            counter = getAssociatedVariableValue(args[1]);
-                        }
+                        counter = getAssociatedVariableValue(args[1]);
                         int loopStartLine = (GetLoopStartLineNumber(commands));
                         int loopEndLine = (GetLoopEndLineNumber(commands) - 1);
-                        loopcount = loopEndLine;
                         for (int i = 0; i < counter; i++)
                         {
                             for (int j = loopStartLine; j <= loopEndLine; j++)
                             {
-                                String oneLineCommand = commands.Lines[j];
+                                string oneLineCommand = commands.Lines[j];
                                 oneLineCommand = oneLineCommand.Trim();
                                 if (!oneLineCommand.Equals(""))
                                 {
@@ -370,23 +320,8 @@ namespace GraphicalProgammingLanguage
                     int left;
                     int right;
                     string condition;
-                    if (!int.TryParse(args[1], out _))
-                    {
-                        left = getAssociatedVariableValue(args[1]);
-                    }
-                    else
-                    {
-                        int.TryParse(args[1], out left);
-                    }
-
-                    if (!int.TryParse(args[3], out _))
-                    {
-                        right = getAssociatedVariableValue(args[3]);
-                    }
-                    else
-                    {
-                        int.TryParse(args[3], out right);
-                    }
+                    left = getAssociatedVariableValue(args[1]);
+                    right = getAssociatedVariableValue(args[3]);
                     condition = args[2];
                     bool ifResult = isIfStatementTrue(left, condition, right);
                     if (ifResult == true)
@@ -394,7 +329,6 @@ namespace GraphicalProgammingLanguage
 
                         int ifStartLine = (GetIfStartLineNumber(commands));
                         int ifEndLine = (GetEndifEndLineNumber(commands) - 1);
-                        loopcount = ifEndLine;
                         for (int j = ifStartLine; j <= ifEndLine; j++)
                         {
                             string oneLineCommand = commands.Lines[j];
@@ -417,7 +351,7 @@ namespace GraphicalProgammingLanguage
 
             for (int i = 0; i < numberOfLines; i++)
             {
-                String oneLineCommand = commands.Lines[i];
+                string oneLineCommand = commands.Lines[i];
                 oneLineCommand = Regex.Replace(oneLineCommand, @"\s+", " ");
                 string[] words = oneLineCommand.Split(' ');
 
@@ -427,7 +361,7 @@ namespace GraphicalProgammingLanguage
                 {
                     words[j] = words[j].Trim();
                 }
-                String firstWord = words[0].ToLower();
+                string firstWord = words[0].ToLower();
                 if (firstWord.Equals("if"))
                 {
                     lineNum = i + 1;
@@ -444,7 +378,7 @@ namespace GraphicalProgammingLanguage
 
             for (int i = 0; i < numberOfLines; i++)
             {
-                String oneLineCommand = commands.Lines[i];
+                string oneLineCommand = commands.Lines[i];
                 oneLineCommand = oneLineCommand.Trim();
                 if (oneLineCommand.ToLower().Equals("endif"))
                 {
@@ -523,7 +457,6 @@ namespace GraphicalProgammingLanguage
                     {
                         ifResult = false;
                     }
-
                     break;
             }
             return ifResult;
@@ -536,7 +469,7 @@ namespace GraphicalProgammingLanguage
 
             for (int i = 0; i < numberOfLines; i++)
             {
-                String oneLineCommand = commands.Lines[i];
+                string oneLineCommand = commands.Lines[i];
                 oneLineCommand = oneLineCommand.Trim();
                 if (oneLineCommand.ToLower().Equals("endloop"))
                 {
@@ -554,7 +487,7 @@ namespace GraphicalProgammingLanguage
 
             for (int i = 0; i < numberOfLines; i++)
             {
-                String oneLineCommand = commands.Lines[i];
+                string oneLineCommand = commands.Lines[i];
                 oneLineCommand = Regex.Replace(oneLineCommand, @"\s+", " ");
                 string[] words = oneLineCommand.Split(' ');
 
@@ -563,7 +496,7 @@ namespace GraphicalProgammingLanguage
                 {
                     words[j] = words[j].Trim();
                 }
-                String firstWord = words[0].ToLower();
+                string firstWord = words[0].ToLower();
                 if (firstWord.Equals("for") || firstWord.Equals("while"))
                 {
                     lineNum = i + 1;
