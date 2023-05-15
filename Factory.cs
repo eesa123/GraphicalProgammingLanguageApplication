@@ -12,7 +12,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="shapeType"></param>
         /// <returns></returns>
-        public static Shape getShape(string shapeType)
+        public Shape getShape(string shapeType)
         {
             shapeType = shapeType.ToLower().Trim();
 

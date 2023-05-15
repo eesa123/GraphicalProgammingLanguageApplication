@@ -270,7 +270,8 @@ namespace GraphicalProgammingLanguage
                     varCounter++;
                     break;
                 case "factory":
-                    Shape shape = Factory.getShape(args[1]);
+                    Factory shapeFactory = new Factory();
+                    Shape shape = shapeFactory.getShape(args[1]);
                     Random random = new Random();
                     if (args[1].ToLower().Trim() == "circle")
                     {

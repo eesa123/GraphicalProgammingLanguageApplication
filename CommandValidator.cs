@@ -49,7 +49,7 @@ namespace GraphicalProgammingLanguage
                     lineNumber = (i + 1);
                     if (!isValid)
                     {
-                        MessageBox.Show("Error in line " + lineNumber);
+                        MessageBox.Show("Error in line " + lineNumber + "\nErrors include: \n"+errorMessages);
                         isValid = true;
                     }
                 }
@@ -161,7 +161,7 @@ namespace GraphicalProgammingLanguage
         {
             string[] keyword = { "factory", "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "reset", "colour", "fillIn", "unfill" };
             string[] shapes = { "circle", "rectangle", "triangle", "square" };
-            string[] operators = { "==", ">", "<", ">=", "=<", "!=" };
+            string[] operators = { "==", ">", "<", ">=", "<=", "!=" };
             command = Regex.Replace(command, @"\s+", " ");
             string[] args = command.Split(' ');
 
@@ -175,14 +175,14 @@ namespace GraphicalProgammingLanguage
             Boolean firstWordIsKeyword = keyword.Contains(firstWord);
             if (firstWordIsKeyword)
             {
-                Boolean firstWordIsShape = shapes.Contains(args[0].ToLower()); //TODO add error messages for each invalid command types
+                Boolean firstWordIsShape = shapes.Contains(args[0].ToLower());
                 if (firstWordIsShape)
                 {
                     if (args[0].ToLower().Equals("circle"))
                     {
                         if (args.Length == 2)
                         {
-                            Boolean isInt = args[1].All(char.IsDigit);
+                            Boolean isInt = int.TryParse(args[1], out _);
                             if (!isInt)
                             {
                                 //check if variable already defined with value
@@ -195,11 +195,13 @@ namespace GraphicalProgammingLanguage
                             }
                             else if (isInt && int.Parse(args[1]) <= 0)
                             {
+                                errorMessages += "Circle radius must be greater than 0. \n";
                                 isValid = false;
                             }
                         }
                         else
                         {
+                            errorMessages += "Circle command must be followed by a postive integer/variable. \n";
                             isValid = false;
                         }
                     }
@@ -214,7 +216,7 @@ namespace GraphicalProgammingLanguage
                             for (int i = 0; i < parms.Length; i++)
                             {
                                 parms[i] = parms[i].Trim();
-                                isInt = parms[i].All(char.IsDigit);
+                                isInt = int.TryParse(args[i], out _);
                                 if (!isInt)
                                 {
                                     //if it is not a variables value being used then invalid
@@ -227,12 +229,14 @@ namespace GraphicalProgammingLanguage
                                 }
                                 else if (isInt && int.Parse(parms[i]) <= 0)
                                 {
+                                    errorMessages += "Rectangle width and heigh must be greater than 0. \n";
                                     isValid = false;
                                 }
                             }
                         }
                         else
                         {
+                            errorMessages += "Rectangle command must be followed by 2 positive integers/variables. \n";
                             isValid = false;
                         }
                     }
@@ -247,19 +251,21 @@ namespace GraphicalProgammingLanguage
                             for (int i = 0; i < parms.Length; i++)
                             {
                                 parms[i] = parms[i].Trim();
-                                isInt = parms[i].All(char.IsDigit);
+                                isInt = int.TryParse(args[i], out _);
                                 if (!isInt)
                                 {
                                     checkIfVariableDefined(parms[i]);
                                 }
                                 else if (isInt && int.Parse(parms[i]) <= 0)
                                 {
+                                    errorMessages += "Triangle point values must be positive integers/variables. \n";
                                     isValid = false;
                                 }
                             }
                         }
                         else
                         {
+                            errorMessages += "Triangle command must be followed by 3 integers or variables. \n";
                             isValid = false;
                         }
                     }
@@ -267,7 +273,7 @@ namespace GraphicalProgammingLanguage
                     {
                         if (args.Length == 2)
                         {
-                            Boolean isInt = args[1].All(char.IsDigit);
+                            Boolean isInt = int.TryParse(args[1], out _);
                             if (!isInt)
                             {
                                 //check if variable already defined with value
@@ -280,11 +286,13 @@ namespace GraphicalProgammingLanguage
                             }
                             else if (isInt && int.Parse(args[1]) <= 0)
                             {
+                                errorMessages += "Square length value must be greater than 0. \n";
                                 isValid = false;
                             }
                         }
                         else
                         {
+                            errorMessages += "Square command must be followed by a positive integer or variable. \n";
                             isValid = false;
                         }
                     }
@@ -300,7 +308,7 @@ namespace GraphicalProgammingLanguage
                         for (int i = 0; i < parms.Length; i++)
                         {
                             parms[i] = parms[i].Trim();
-                            isInt = parms[i].All(char.IsDigit);
+                            isInt = int.TryParse(args[i], out _);
                             if (!isInt)
                             {
                                 //if it is not a variables value being used then invalid
@@ -311,28 +319,16 @@ namespace GraphicalProgammingLanguage
                                     checkIfVariableDefined(parms[i]);
                                 }
                             }
-                            else if (isInt && int.Parse(parms[i]) < 0)
+                            else if (isInt && (int.Parse(parms[i]) < 0 || int.Parse(parms[i]) > 255))
                             {
+                                errorMessages += "Colour values must be between 0 and 255. \n";
                                 isValid = false;
                             }
                         }
                     }
                     else
                     {
-                        isValid = false;
-                    }
-                }
-                else if (firstWord.Equals("end"))
-                {
-                    if (args.Length == 2)
-                    {
-                        if (!args[1].Equals("loop"))
-                        {
-                            isValid = false;
-                        }
-                    }
-                    else
-                    {
+                        errorMessages += "Colour command should be followed by 3 postive integers/variables with values between 0 and 255. \n";
                         isValid = false;
                     }
                 }
@@ -342,11 +338,13 @@ namespace GraphicalProgammingLanguage
                     {
                         if (!shapes.Contains(args[1].ToLower().Trim()))
                         {
+                            errorMessages += "Factory command shape given is invalid, it should be one of: 'Rectangle', 'Square', 'Circle', 'Triangle'. \n";
                             isValid = false;
                         }
                     }
                     else
                     {
+                        errorMessages += "Factory command length is invalid, it should be followed by one of: 'Rectangle', 'Square', 'Circle', 'Triangle'. \n";
                         isValid = false;
                     }
                 }
@@ -356,27 +354,31 @@ namespace GraphicalProgammingLanguage
                     {
                         if (!args[1].ToLower().Equals("in"))
                         {
+                            errorMessages += "Fill command should be followed by 'in'. \n";
                             isValid = false;
                         }
                     }
                     else if (firstWord.Equals("fillIn") && args.Length > 1)
                     {
+                        errorMessages += "fillIn command should have nothing after it. \n";
                         isValid = false;
                     }
                 }
                 else if (firstWord.Equals("unfill") && args.Length > 1)
                     {
-                        isValid = false;
+                    errorMessages += "Unfill command should have nothing after it. \n";
+                    isValid = false;
                     }
                 else if (firstWord.Equals("reset") && args.Length > 1)
                 {
+                    errorMessages += "Reset command should have nothing after it. \n";
                     isValid = false;
                 }
                 else if (firstWord.Equals("for"))
                 {
                     if (args.Length == 2)
                     {
-                        Boolean isInt = args[1].All(char.IsDigit);
+                        Boolean isInt = int.TryParse(args[1], out _);
                         if (!isInt)
                         {
                             Boolean firstWordIsVariable = variables.Contains(args[1].ToLower());
@@ -386,16 +388,19 @@ namespace GraphicalProgammingLanguage
                             }
                             else
                             {
+                                errorMessages += "For loop must use integer for iteration value'. \n";
                                 isValid = false;
                             }
                         }
                         else if (isInt && int.Parse(args[1]) <= 0)
                         {
+                            errorMessages += "For loop must use positive integer above 0 for iteration value'. \n";
                             isValid = false;
                         }
                     }
                     else
                     {
+                        errorMessages += "For loop must follow pattern 'for (int)'. \n";
                         isValid = false;
                     }
                 }
@@ -407,27 +412,25 @@ namespace GraphicalProgammingLanguage
                         {
                             if (operators.Contains(args[2].ToLower()))
                             {
-                                Boolean isInt = args[3].All(char.IsDigit);
-                                if (isInt)
+                                Boolean isInt = int.TryParse(args[3], out _);
+                                if (isInt || variables.Contains(args[3].ToLower()))
                                 {
                                     if (args[4].ToLower().Equals("then"))
                                     {
-                                        errorMessages += "If statement must end with 'then'. \n";
+                                        isValid = true;
 
                                     }
-                                    else { isValid = false; }
+                                    else { isValid = false; errorMessages += "If statement must end with 'then'. \n";}
                                 }
-                                else { isValid = false; }
-
+                                else { isValid = false; errorMessages += "If statement condition must use defined variables or integers'. \n";}
                             }
-                            else { isValid = false; }
+                            else { isValid = false; errorMessages += "If statement condition must use one of these operators: '==', '<', '>', '!=', '<=', '>='. \n"; }
                         }
-                        else { isValid = false; }
-
+                        else { isValid = false; errorMessages += "If statement condition must use defined variables or integers'. \n"; }
                     }
                     else
                     {
-                        isValid = false;
+                        isValid = false; errorMessages += "If statement length is not valid, must follow pattern: 'if (int) (condition) (int) then'. \n";
                     }
 
                 }
@@ -435,6 +438,7 @@ namespace GraphicalProgammingLanguage
                 {
                     if (args.Length != 1)
                     {
+                        isValid = false;
                         errorMessages += "End commands should have nothing come after them. \n";                    }
                 }
                 else if (firstWord.Equals("drawto") || firstWord.Equals("moveto"))
@@ -448,13 +452,14 @@ namespace GraphicalProgammingLanguage
                         for (int i = 0; i < parms.Length; i++)
                         {
                             parms[i] = parms[i].Trim();
-                            isInt = parms[i].All(char.IsDigit);
+                            isInt = int.TryParse(args[i], out _);
                             if (!isInt)
                             {
                                 checkIfVariableDefined(parms[i]);
                             }
                             else if (isInt && int.Parse(parms[i]) < 0)
                             {
+                                isValid = false;
                                 errorMessages += "Move/draw command requires two positive integers. \n";
 
                             }
@@ -462,6 +467,7 @@ namespace GraphicalProgammingLanguage
                     }
                     else
                     {
+                        isValid = false;
                         errorMessages += "Move/draw command does not have the right amount of parameters, two positive integers are needed. \n";
                     }
                 }
@@ -474,18 +480,21 @@ namespace GraphicalProgammingLanguage
                     {
                         Boolean isInt = false;
                         parms[0] = parms[0].Trim();
-                        isInt = parms[1].Trim().All(char.IsDigit);
+                        isInt = int.TryParse(parms[1], out _);
                         if (variables.Contains(parms[0]) || !isInt)
                         {
+                            isValid = false;
                             errorMessages += "Variable " + parms[0] + " has already been assigned a value. \n";
                         }
                         else if (isInt && int.Parse(parms[1].Trim()) < 0)
                         {
+                            isValid = false;
                             errorMessages += "Variable " + parms[0] + " cannot have a negative value. \n";
                         }
                     }
                     else
                     {
+                        isValid = false;
                         errorMessages += "Var command must follow pattern 'var (string) = (int)' and the value must be positive. \n";
                     }
                     if (isValid)
@@ -496,7 +505,7 @@ namespace GraphicalProgammingLanguage
                     }
                 }
             }
-            else { isValid = false; errorMessages += "Command" + args[0] + " is not a valid command. \n"; }
+            else { isValid = false; errorMessages += "Command " + args[0] + " is not a valid command. \n"; }
             if (!isValid)
             {
                 invalidCommandExists = true;
