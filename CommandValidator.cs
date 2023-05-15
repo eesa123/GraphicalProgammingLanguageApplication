@@ -55,14 +55,14 @@ namespace GraphicalProgammingLanguage
                 }
 
             }
-            checkLoopAndIfValidation();
+            CheckLoopAndIfValidation();
             if (!isValid)
             {
                 invalidCommandExists = true;
             }
         }
 
-        public void checkLoopAndIfValidation()
+        public void CheckLoopAndIfValidation()
         {
             int numberOfLines = commandText.Lines.Length;
 
@@ -190,7 +190,7 @@ namespace GraphicalProgammingLanguage
                                 Boolean isVariable = variables.Contains(args[1].ToLower());
                                 if (isVariable)
                                 {
-                                    checkIfVariableDefined(args[1]);
+                                    CheckIfVariableDefined(args[1]);
                                 }
                             }
                             else if (isInt && int.Parse(args[1]) <= 0)
@@ -224,7 +224,7 @@ namespace GraphicalProgammingLanguage
                                     Boolean isVariable = variables.Contains(parms[i].ToLower());
                                     if (isVariable)
                                     {
-                                        checkIfVariableDefined(parms[i]);
+                                        CheckIfVariableDefined(parms[i]);
                                     }
                                 }
                                 else if (isInt && int.Parse(parms[i]) <= 0)
@@ -254,7 +254,7 @@ namespace GraphicalProgammingLanguage
                                 isInt = int.TryParse(args[i], out _);
                                 if (!isInt)
                                 {
-                                    checkIfVariableDefined(parms[i]);
+                                    CheckIfVariableDefined(parms[i]);
                                 }
                                 else if (isInt && int.Parse(parms[i]) <= 0)
                                 {
@@ -281,7 +281,7 @@ namespace GraphicalProgammingLanguage
                                 Boolean isVariable = variables.Contains(args[1].ToLower());
                                 if (isVariable)
                                 {
-                                    checkIfVariableDefined(args[1]);
+                                    CheckIfVariableDefined(args[1]);
                                 }
                             }
                             else if (isInt && int.Parse(args[1]) <= 0)
@@ -316,7 +316,7 @@ namespace GraphicalProgammingLanguage
                                 Boolean isVariable = variables.Contains(parms[i].ToLower());
                                 if (isVariable)
                                 {
-                                    checkIfVariableDefined(parms[i]);
+                                    CheckIfVariableDefined(parms[i]);
                                 }
                             }
                             else if (isInt && (int.Parse(parms[i]) < 0 || int.Parse(parms[i]) > 255))
@@ -384,7 +384,7 @@ namespace GraphicalProgammingLanguage
                             Boolean firstWordIsVariable = variables.Contains(args[1].ToLower());
                             if (firstWordIsVariable)
                             {
-                                checkIfVariableDefined(args[1]);
+                                CheckIfVariableDefined(args[1]);
                             }
                             else
                             {
@@ -455,7 +455,7 @@ namespace GraphicalProgammingLanguage
                             isInt = int.TryParse(args[i], out _);
                             if (!isInt)
                             {
-                                checkIfVariableDefined(parms[i]);
+                                CheckIfVariableDefined(parms[i]);
                             }
                             else if (isInt && int.Parse(parms[i]) < 0)
                             {
@@ -512,7 +512,7 @@ namespace GraphicalProgammingLanguage
             }
 
         }
-        public void checkIfVariableDefined(string variable)
+        public void CheckIfVariableDefined(string variable)
         {
             int value = -10000;
             if (variables[0] == null) { isValid = false; errorMessages += "No variables have been defined. \n"; return; } // first element is null therefore no variables defined.
@@ -538,7 +538,7 @@ namespace GraphicalProgammingLanguage
             }
         }
 
-    public Boolean doesInvalidCommandExists()
+    public Boolean DoesInvalidCommandExists()
         {
             return this.invalidCommandExists;
         }

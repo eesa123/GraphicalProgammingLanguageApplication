@@ -27,9 +27,9 @@ namespace GraphicalProgammingLanguage
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="points"></param>
-        public override void setTriangle(int x, int y, Point[] points)
+        public override void SetTriangle(int x, int y, Point[] points)
         {
-            base.set(x, y);
+            base.Set(x, y);
             this.points = points;
         }
 

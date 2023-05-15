@@ -30,9 +30,9 @@ namespace GraphicalProgammingLanguage
         /// Sets x and y co ordinates as well as width and height attributes.
         /// </summary>
         /// <param name="list"></param>
-        public override void set(params int[] list)
+        public override void Set(params int[] list)
         {
-            base.set(list[0], list[1]);
+            base.Set(list[0], list[1]);
             this.width = list[2];
             this.height = list[3];
         }

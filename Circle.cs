@@ -41,10 +41,10 @@ namespace GraphicalProgammingLanguage
         /// Sets the radius and x, y co-ordinates of the shape object used for Factory and Shape class instantiating.
         /// </summary>
         /// <param name="list"></param>
-        public override void set(params int[] list)
+        public override void Set(params int[] list)
         {
             //list[0] is x, list[1] is y, list[2] is radius
-            base.set(list[0], list[1]);
+            base.Set(list[0], list[1]);
             this.radius = list[2];
 
         }

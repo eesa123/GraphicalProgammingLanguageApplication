@@ -26,7 +26,7 @@ namespace GraphicalProgammingLanguage
         /// Sets the x co ordinate and y co ordinate for the shape drawing start (pen position)
         /// </summary>
         /// <param name="list"></param>
-        public virtual void set(params int[] list)
+        public virtual void Set(params int[] list)
         {
 
             this.x = list[0];
@@ -40,7 +40,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="points"></param>
-        public virtual void setTriangle(int x, int y, Point[] points)
+        public virtual void SetTriangle(int x, int y, Point[] points)
         {
             this.x = x;
             this.y = y;

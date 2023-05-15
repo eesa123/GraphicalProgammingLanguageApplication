@@ -56,7 +56,7 @@
             this.Run.TabIndex = 1;
             this.Run.Text = "Run";
             this.Run.UseVisualStyleBackColor = true;
-            this.Run.Click += new System.EventHandler(this.runButton);
+            this.Run.Click += new System.EventHandler(this.RunButton);
             // 
             // CommandLine
             // 
@@ -75,7 +75,7 @@
             this.Load.TabIndex = 5;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
-            this.Load.Click += new System.EventHandler(this.loadButton);
+            this.Load.Click += new System.EventHandler(this.LoadButton);
             // 
             // Clear
             // 
@@ -85,7 +85,7 @@
             this.Clear.TabIndex = 8;
             this.Clear.Text = "Clear";
             this.Clear.UseVisualStyleBackColor = true;
-            this.Clear.Click += new System.EventHandler(this.clearButton);
+            this.Clear.Click += new System.EventHandler(this.ClearButton);
             // 
             // Syntax
             // 
@@ -95,7 +95,7 @@
             this.Syntax.TabIndex = 9;
             this.Syntax.Text = "Syntax";
             this.Syntax.UseVisualStyleBackColor = true;
-            this.Syntax.Click += new System.EventHandler(this.syntaxButton);
+            this.Syntax.Click += new System.EventHandler(this.SyntaxButton);
             // 
             // Save
             // 
@@ -105,7 +105,7 @@
             this.Save.TabIndex = 10;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.saveButton);
+            this.Save.Click += new System.EventHandler(this.SaveButton);
             // 
             // display
             // 
