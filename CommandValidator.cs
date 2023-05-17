@@ -492,7 +492,7 @@ namespace GraphicalProgammingLanguage
                         isInt = int.TryParse(parms[1], out _);
                         if (variables.Contains(parms[0]))// if variable is already defined then can be reassigned
                         {
-                            Tuple<int, int> valueAndPosition = getDefinedVariableValueAndPosition(parms[0]);
+                            Tuple<int, int> valueAndPosition = GetDefinedVariableValueAndPosition(parms[0]);
                             if (int.Parse(parms[1]) < 0)
                             {
                                 isValid = false;
@@ -563,7 +563,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="variable">The variable name string that is being checked</param>
         /// <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
-        public Tuple<int, int> getDefinedVariableValueAndPosition(string variable)
+        public Tuple<int, int> GetDefinedVariableValueAndPosition(string variable)
         {
             int value = -10000;
             if (variables.Count == 0)

@@ -278,7 +278,7 @@ namespace GraphicalProgammingLanguage
                 case "var":// add the new variable to the list
                     if (variables.Contains(args[1]))// if variable is already defined then can be reassigned
                     {
-                        Tuple<int, int> valueAndPosition = getDefinedVariableValueAndPosition(args[1]);
+                        Tuple<int, int> valueAndPosition = GetDefinedVariableValueAndPosition(args[1]);
                         variableValues[valueAndPosition.Item2] = int.Parse(args[3]); // set value in position found in list to new value 
                     }
                     else
@@ -371,14 +371,14 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="variable">The variable name string that is being checked</param>
         /// <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
-        public Tuple<int, int> getDefinedVariableValueAndPosition(string variable)
+        public Tuple<int, int> GetDefinedVariableValueAndPosition(string variable)
         {
             int value = -10000;
             for (int i = 0; i < variables.Count; i++)
             {
                 if (variables[i].ToLower().Equals(variable.ToLower()))
                 {
-                    return new Tuple<int, int>(variableValues[i], i);
+                    return new Tuple<int, int>(variableValues[i], i);// return tuple as this method can be used to also add/subtract from value if implemented 
                 }
 
             }//this should never be reached as this is only called if the variable is already defined
