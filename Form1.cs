@@ -50,6 +50,7 @@ namespace GraphicalProgammingLanguage
             if (CommandPanel.Text != null && !CommandPanel.Text.Equals("")) // if command panel has text then take commands from there only.
             {
                 CommandValidator validate = new CommandValidator(CommandPanel);
+                validate.Validate();
                 if (!validate.DoesInvalidCommandExists())
                 {
                     ParseCommands(CommandPanel);
@@ -59,6 +60,7 @@ namespace GraphicalProgammingLanguage
             else if (CommandLine.Text != null && !CommandLine.Text.Equals("")) // if command panel has no text then run command line command.
             {
                 CommandValidator validate = new CommandValidator(CommandLine);
+                validate.Validate();
                 if (!validate.DoesInvalidCommandExists()) // if any invalid commands then no commands are run/parsed.
                 {
                     ParseCommands(CommandLine);
@@ -111,6 +113,7 @@ namespace GraphicalProgammingLanguage
             if (this.CommandPanel.Text != null && !this.CommandPanel.Text.Equals(""))
             {
                 CommandValidator validate = new CommandValidator(CommandPanel);
+                validate.Validate();
                 if (!validate.DoesInvalidCommandExists())
                 {
                     MessageBox.Show("Coammnds have no errors.");
@@ -120,6 +123,7 @@ namespace GraphicalProgammingLanguage
             else if (this.CommandLine.Text != null && !this.CommandLine.Text.Equals(""))
             {
                 CommandValidator validate = new CommandValidator(CommandLine);
+                validate.Validate();
                 if (!validate.DoesInvalidCommandExists())
                 {
                     MessageBox.Show("Command has no errors.");
@@ -265,7 +269,7 @@ namespace GraphicalProgammingLanguage
                     x = 0;
                     y = 0;
                     break;
-                case "fillIn": // switch to using brush for shapes and filling in the shapes rather than just the outline
+                case "fillin": // switch to using brush for shapes and filling in the shapes rather than just the outline
                     fillIn = true;
                     break;
                 case "Unfill":// switch back to just drawing the outline and not filling in the shape
@@ -279,7 +283,19 @@ namespace GraphicalProgammingLanguage
                     if (variables.Contains(args[1]))// if variable is already defined then can be reassigned
                     {
                         Tuple<int, int> valueAndPosition = GetDefinedVariableValueAndPosition(args[1]);
-                        variableValues[valueAndPosition.Item2] = int.Parse(args[3]); // set value in position found in list to new value 
+
+                        if (args[2].Equals("+")) 
+                        {
+                            variableValues[valueAndPosition.Item2] = valueAndPosition.Item1 + int.Parse(args[3]);// add value to current value
+                        }
+                        else if (args[2].Equals("-")) 
+                        { 
+                            variableValues[valueAndPosition.Item2] = valueAndPosition.Item1 - int.Parse(args[3]); // subtract value from current value
+                        }
+                        else
+                        {
+                            variableValues[valueAndPosition.Item2] = int.Parse(args[3]); // set value in position found in list to new value 
+                        }
                     }
                     else
                     {

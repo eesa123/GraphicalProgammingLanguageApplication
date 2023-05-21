@@ -9,7 +9,7 @@ namespace GraphicalProgammingLanguage
     /// <summary>
     /// Class which will be used to parse commands and validate them accordingly.
     /// </summary>
-    class CommandValidator
+    public class CommandValidator
     {
         private int loopEnd; //used in loop to determine loop end line value
         private int loopStart;//used in loop to determine current loop iteration
@@ -38,6 +38,14 @@ namespace GraphicalProgammingLanguage
         /// <param name="commands">Textbox from Form class which contains text commands.</param>
         public CommandValidator(TextBox commands) {
             this.commandText = commands;
+
+        }
+
+        /// <summary>
+        /// Validate commands line by line
+        /// </summary>
+        public void Validate(bool showMessage = true)
+        {
             // For each line in the text the line is taken and trimmed and then validated
             int numberOfLines = commandText.Lines.Length;
             for (int i = 0; i < numberOfLines; i++)
@@ -50,8 +58,9 @@ namespace GraphicalProgammingLanguage
                     lineNumber = (i + 1);//as we start at 0 and the line numbr starts at 1 to the user we add 1
                     if (!isValid)
                     {
-                        MessageBox.Show("Error in line " + lineNumber + "\nErrors include: \n"+errorMessages);// for each error the line number is given as well as the errors found so far
+                        if (showMessage) {MessageBox.Show("Error in line " + lineNumber + "\nErrors include: \n" + errorMessages);}// for each error the line number is given as well as the errors found so far
                         isValid = true;//reset back to true so next line can be validated
+                        errorMessages = "";
                     }
                 }
 
@@ -59,6 +68,7 @@ namespace GraphicalProgammingLanguage
             CheckLoopAndIfValidation();// check the loop and if statements are properly done with an if/for statement having a corresponding end statement after.
             if (!isValid)
             {
+                if (showMessage)  {MessageBox.Show("Errors include: \n" + errorMessages);}// show for/if statement errors
                 invalidCommandExists = true;
             }
         }
@@ -127,13 +137,13 @@ namespace GraphicalProgammingLanguage
                     if (loopStart >= loopEnd)
                     {
                         isValid = false;
-                        MessageBox.Show("'ENDLOOP' must be after loop start");
+                        errorMessages+= "'ENDLOOP' must be after loop start \n";
                     }
                 }
                 else
                 {
                     isValid = false;
-                    MessageBox.Show("Loop Not Ended with 'ENDLOOP'");
+                    errorMessages += "Loop Not Ended with 'ENDLOOP' \n";
                 }
             }
             if (hasIf)// same check for if statement
@@ -143,13 +153,13 @@ namespace GraphicalProgammingLanguage
                     if (ifStart >= ifEnd)
                     {
                         isValid = false;
-                        MessageBox.Show("'ENDIF' must be after IF");
+                        errorMessages += "'ENDIF' must be after IF \n";
                     }
                 }
                 else
                 {
                     isValid = false;
-                    MessageBox.Show("IF Not Ended with 'ENDIF'");
+                    errorMessages += "IF Not Ended with 'ENDIF' \n";
                 }
             }
         }
@@ -161,7 +171,7 @@ namespace GraphicalProgammingLanguage
         public void CheckLineValidation(string command)
         {
             // using keywords to validate the commands passed and make sure they start with one of the valid keywords
-            string[] keyword = { "factory", "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "reset", "colour", "fillIn", "unfill", "clear" };
+            string[] keyword = { "factory", "circle", "rectangle", "triangle", "square", "drawto", "moveto", "for", "if", "endif", "endloop", "var", "reset", "colour", "fillin", "unfill", "clear" };
             // define drawable shapes to validate them separately
             string[] shapes = { "circle", "rectangle", "triangle", "square" };
             // define operators to ensure if statement uses correct conditionals
@@ -194,6 +204,11 @@ namespace GraphicalProgammingLanguage
                                 {
                                     CheckIfVariableDefined(args[1]);
                                 }
+                                else
+                                {
+                                    errorMessages += "Circle radius must be a positive integer or defined variable. \n";
+                                    isValid = false;
+                                }
                             }
                             // if radius is an integer check that it is greater than 0
                             else if (isInt && int.Parse(args[1]) <= 0)
@@ -219,7 +234,7 @@ namespace GraphicalProgammingLanguage
                             for (int i = 0; i < parms.Length; i++)// go through each parameter (width and height) and validate it as either an integer or defined variable
                             {
                                 parms[i] = parms[i].Trim();
-                                isInt = int.TryParse(args[i], out _);
+                                isInt = int.TryParse(parms[i], out _);
                                 if (!isInt)
                                 {
                                     //if it is not a variables value being used then invalid
@@ -227,6 +242,10 @@ namespace GraphicalProgammingLanguage
                                     if (isVariable)
                                     {
                                         CheckIfVariableDefined(parms[i]);
+                                    }
+                                    else {
+                                        errorMessages += "Rectangle width and heigh must be a positive integer or defined variable. \n";
+                                        isValid = false;
                                     }
                                 }
                                 else if (isInt && int.Parse(parms[i]) <= 0)// check the value is greater than 0
@@ -253,7 +272,7 @@ namespace GraphicalProgammingLanguage
                             for (int i = 0; i < parms.Length; i++)
                             {
                                 parms[i] = parms[i].Trim();
-                                isInt = int.TryParse(args[i], out _);
+                                isInt = int.TryParse(parms[i], out _);
                                 if (!isInt)
                                 {
                                     CheckIfVariableDefined(parms[i]);
@@ -285,6 +304,11 @@ namespace GraphicalProgammingLanguage
                                 {
                                     CheckIfVariableDefined(args[1]);
                                 }
+                                else
+                                {
+                                    errorMessages += "Square command must be followed by a positive integer or variable. \n";
+                                    isValid = false;
+                                }
                             }
                             else if (isInt && int.Parse(args[1]) <= 0)
                             {
@@ -310,7 +334,7 @@ namespace GraphicalProgammingLanguage
                         for (int i = 0; i < parms.Length; i++)
                         {
                             parms[i] = parms[i].Trim();
-                            isInt = int.TryParse(args[i], out _);
+                            isInt = int.TryParse(parms[i], out _);
                             if (!isInt)
                             {
                                 //if it is not a variables value being used then invalid
@@ -319,6 +343,11 @@ namespace GraphicalProgammingLanguage
                                 if (isVariable)
                                 {
                                     CheckIfVariableDefined(parms[i]);
+                                }
+                                else
+                                {
+                                    errorMessages += "Colour values must be between 0 and 255 or a defined variable. \n";
+                                    isValid = false;
                                 }
                             }
                             else if (isInt && (int.Parse(parms[i]) < 0 || int.Parse(parms[i]) > 255))// validating colour values are within range of 0 to 255
@@ -350,20 +379,11 @@ namespace GraphicalProgammingLanguage
                         isValid = false;
                     }
                 }
-                else if (firstWord.Equals("fillIn") || firstWord.Equals("fill"))
-                // if fillin or fill is given validate that it is either on its own or followed by in in the case of fill
+                else if (firstWord.Equals("fillin"))
                 {
-                    if (args.Length == 2)
+                   if (args.Length > 1)
                     {
-                        if (!args[1].ToLower().Equals("in"))
-                        {
-                            errorMessages += "Fill command should be followed by 'in'. \n";
-                            isValid = false;
-                        }
-                    }
-                    else if (firstWord.Equals("fillIn") && args.Length > 1)
-                    {
-                        errorMessages += "fillIn command should have nothing after it. \n";
+                        errorMessages += "fillin command should have nothing after it. \n";
                         isValid = false;
                     }
                 }
@@ -483,41 +503,70 @@ namespace GraphicalProgammingLanguage
                 else if (firstWord.Equals("var"))
                 {
                     string subCommand = command.Substring(3, (command.Length - 3));
-                    string[] parms = subCommand.Trim().Split('=');// split command by assignment 
-
-                    if (parms.Length == 2)
+                    char splitOperator = IsMathematicalOperatationOrAssignment(subCommand);
+                    if (splitOperator != 'i')
                     {
-                        bool isInt = false;
-                        parms[0] = parms[0].Trim();
-                        isInt = int.TryParse(parms[1], out _);
-                        if (variables.Contains(parms[0]))// if variable is already defined then can be reassigned
+                        string[] parms = subCommand.Trim().Split(splitOperator);// split command by assignment or mathmatical operator
+
+                        if (parms.Length == 2)
                         {
-                            Tuple<int, int> valueAndPosition = GetDefinedVariableValueAndPosition(parms[0]);
-                            if (int.Parse(parms[1]) < 0)
+                            bool isInt = false;
+                            parms[0] = parms[0].Trim();
+                            isInt = int.TryParse(parms[1], out _);
+                            if (variables.Contains(parms[0]))// if variable is already defined then can be reassigned
+                            {
+                                Tuple<int, int> valueAndPosition = GetDefinedVariableValueAndPosition(parms[0]);
+                                if (int.Parse(parms[1]) < 0)
+                                {
+                                    isValid = false;
+                                    errorMessages += "Variable " + parms[0] + " cannot have a negative value and mathematical operations must be done with positive integers. \n";
+                                }
+                                else
+                                {
+                                    if (splitOperator.Equals('='))
+                                    {
+                                        variableValues[valueAndPosition.Item2] = int.Parse(parms[1]); // set value in position found in list to new value 
+                                    }
+                                    else if (splitOperator.Equals('+'))
+                                    {
+                                        variableValues[valueAndPosition.Item2] = variableValues[valueAndPosition.Item2] + int.Parse(parms[1]); // add to current value in list 
+                                    }
+                                    else if (splitOperator.Equals('-'))
+                                    {
+                                        if (variableValues[valueAndPosition.Item2] - int.Parse(parms[1]) < 0)// variables cant be negative so subtraction has to be checked
+                                        {
+                                            isValid = false;
+                                            errorMessages += "Subtraction operation on variable cannot result in negative value.";
+                                        }
+                                        else
+                                        {
+                                            variableValues[valueAndPosition.Item2] = variableValues[valueAndPosition.Item2] - int.Parse(parms[1]); // subtract from current value in list 
+                                        }
+                                    }
+                                }
+                            }
+                            else if (!splitOperator.Equals('='))
+                            {
+                                isValid = false;
+                                errorMessages += "Variable not defined.";
+                            }
+                            else if (isInt && int.Parse(parms[1].Trim()) < 0)
                             {
                                 isValid = false;
                                 errorMessages += "Variable " + parms[0] + " cannot have a negative value. \n";
                             }
-                            else
-                            {
-                                variableValues[valueAndPosition.Item2] = int.Parse(parms[1]); // set value in position found in list to new value 
-                            }
                         }
-                        else if (isInt && int.Parse(parms[1].Trim()) < 0)
+                        else
                         {
                             isValid = false;
-                            errorMessages += "Variable " + parms[0] + " cannot have a negative value. \n";
+                            errorMessages += "Var command must follow pattern 'var (string) = (int)' and the value must be positive. \n";
                         }
-                    }
-                    else
-                    {
-                        isValid = false;
-                        errorMessages += "Var command must follow pattern 'var (string) = (int)' and the value must be positive. \n";
-                    }
-                    if (isValid)
-                    {
-                        variables.Add(parms[0].ToLower());// add variable to list
-                        variableValues.Add(int.Parse(parms[1].Trim()));// add assigned value to list
+
+                        if (isValid && !variables.Contains(parms[0]))
+                        {
+                            variables.Add(parms[0].ToLower());// add variable to list if variable is not already defined
+                            variableValues.Add(int.Parse(parms[1].Trim()));// add assigned value to list
+                        }
                     }
                 }
             }
@@ -556,6 +605,23 @@ namespace GraphicalProgammingLanguage
                 errorMessages += "Variable " + variable + " has not been defined. \n";
                 isValid = false;
             }
+        }
+
+        /// <summary>
+        /// Returns the value and position of the variable in the list
+        /// </summary>
+        /// <param name="variable">The variable name string that is being checked</param>
+        /// <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
+        public char IsMathematicalOperatationOrAssignment(string subCommand)
+        {
+
+            if (subCommand.Contains("=")) { return Char.Parse("="); }
+            if (subCommand.Contains("+")) { return Char.Parse("+"); }
+            if (subCommand.Contains("-")) { return Char.Parse("-"); }
+            isValid = false;
+            errorMessages = "Operator invalid choose from one of '=, +, -'. Multiple operators cannnot be used for variable assignment or mathematical operations.";
+            return Char.Parse("i");
+
         }
 
         /// <summary>
