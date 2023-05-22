@@ -5,6 +5,9 @@ using GraphicalProgammingLanguage;
 
 namespace UnitTestProject1
 {
+    /// <summary>
+    /// Test class for command validator class methods
+    /// </summary>
     [TestClass]
     public class CommandValidatorTests
     {

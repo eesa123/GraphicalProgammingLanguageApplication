@@ -154,7 +154,7 @@ namespace GraphicalProgammingLanguage
         /// Takes each command from textbox and and runs the command
         /// </summary>
         /// <param name="commands">TextBox with commands entered by user</param>
-        private void ParseCommands(TextBox commands)
+        public void ParseCommands(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
             // for each line in the text box, trim the line and run the command if it isn't empty
@@ -176,7 +176,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="variable">Name of the variable to get the value of</param>
         /// <returns>The integer value of the variable passed in</returns>
-        private int GetAssociatedVariableValue(string variable) //used to call the valuse of the assined varable if it is there
+        public int GetAssociatedVariableValue(string variable) //used to call the valuse of the assined varable if it is there
         {
             int number = -2;
             if (int.TryParse(variable, out _))// if the number can be parsed as an integer then just return the value as an int
@@ -406,7 +406,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="commands">The user input from the textbox</param>
         /// <returns>Integer value of the start line of the if block</returns>
-        private int GetIfStartLineNumber(TextBox commands)
+        public int GetIfStartLineNumber(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
             // go through each line in the commands and find the line where the first word is 'if'
@@ -436,7 +436,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="commands">The user input from the textbox</param>
         /// <returns>Integer value of the last command in the if block</returns>
-        private int GetEndifEndLineNumber(TextBox commands)
+        public int GetEndifEndLineNumber(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
 
@@ -460,7 +460,7 @@ namespace GraphicalProgammingLanguage
         /// <param name="condition"> the chosen conditional operator i.e. '!='</param>
         /// <param name="right"> integer/variable given after the operator</param>
         /// <returns>Boolean value of whether the if statement condition is true or not</returns>
-        private bool IsIfStatementTrue(int left, string condition, int right) 
+        public bool IsIfStatementTrue(int left, string condition, int right) 
         {
             bool ifResult = false;
             switch (condition)// switch case to go through each potential operator case and perform the necessary check
@@ -511,7 +511,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="commands">The user input from the textbox</param>
         /// <returns>Integer value of the end line of the for block</returns>
-        private int GetLoopEndLineNumber(TextBox commands)
+        public int GetLoopEndLineNumber(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
             int lineNum = 0;
@@ -534,7 +534,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="commands">The user input from the textbox</param>
         /// <returns>Integer value of the start line of the for block</returns>
-        private int GetLoopStartLineNumber(TextBox commands)
+        public int GetLoopStartLineNumber(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
             int lineNum = 0;
