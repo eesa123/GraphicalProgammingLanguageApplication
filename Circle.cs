@@ -48,15 +48,6 @@ namespace GraphicalProgammingLanguage
             this.radius = list[2];
 
         }
-
-        /// <summary>
-        /// Override parent class ToString to include radius. 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return base.ToString() + "  " + this.radius;
-        }
     }
 }
 

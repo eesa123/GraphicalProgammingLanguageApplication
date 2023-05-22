@@ -5,8 +5,9 @@ namespace GraphicalProgammingLanguage
     /// <summary>
     /// Factory class used to instanstiate objects based on shape type parameter passed in.
     /// </summary>
-    class Factory
+    public class Factory
     {
+        public bool showMessage = true;
         /// <summary>
         /// Static method which returns given shape object depending on parameter passed in.
         /// </summary>
@@ -32,7 +33,7 @@ namespace GraphicalProgammingLanguage
                 return new Triangle();
             }
 
-            MessageBox.Show("Shape type does not exist."); // Incase the given type doesn't exist in practice this will never be hit as the validator will pick it up first.
+            if (showMessage) { MessageBox.Show("Shape type does not exist."); } // Incase the given type doesn't exist in practice this will never be hit as the validator will pick it up first.
             return null;
         }
     }

@@ -5,7 +5,7 @@ namespace GraphicalProgammingLanguage
     /// <summary>
     /// Abstract class to define common attributes and methods for all shapes that can be drawn
     /// </summary>
-    abstract class Shape
+    public abstract class Shape
     {
         protected int x, y;// x and y co-ordinates in the drawing panel and the pen position.
         protected bool filledIn; // Used to determine if shape is filled in using brush or not.
@@ -54,14 +54,5 @@ namespace GraphicalProgammingLanguage
         /// <param name="pen"> Drawing pen for drawing shape outlines</param>
         /// <param name="brush"> Drawing brush used for filling in shapes</param>
         public abstract void Draw(Graphics g, Pen pen, Brush brush);
-
-        /// <summary>
-        /// Standard ToString Method.
-        /// </summary>
-        /// <returns>A String detailing object attribute values.</returns>
-        public override string ToString()
-        {
-            return base.ToString() + "    " + this.x + "," + this.y + " : ";
-        }
     }
 }

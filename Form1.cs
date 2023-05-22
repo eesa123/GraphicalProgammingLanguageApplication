@@ -235,21 +235,12 @@ namespace GraphicalProgammingLanguage
                     y = point2;// update y value
                     break;
                 case "colour":
-                    try
-                    {
-                        int red = GetAssociatedVariableValue(args[1]);
-                        int blue = GetAssociatedVariableValue(args[2]);
-                        int green = GetAssociatedVariableValue(args[3]);
-                        pencol = Color.FromArgb(red, blue, green);// get colour using RGB values
-                        drawingPen.Color = pencol;// set pen colour
-                        drawingBrush = new SolidBrush(pencol);// set brush to new object of new colour
-                    }
-                    catch
-                    {
-                        pencol = Color.Black;// in case of any exception when getting colour default to black
-                        drawingPen.Color = pencol;
-                        drawingBrush = new SolidBrush(pencol);
-                    }
+                    int red = GetAssociatedVariableValue(args[1]);
+                    int blue = GetAssociatedVariableValue(args[2]);
+                    int green = GetAssociatedVariableValue(args[3]);
+                    pencol = Color.FromArgb(red, blue, green);// get colour using RGB values
+                    drawingPen.Color = pencol;// set pen colour
+                    drawingBrush = new SolidBrush(pencol);// set brush to new object of new colour
                     break;
                 case "triangle":
                     int p1 = GetAssociatedVariableValue(args[1]);
@@ -272,7 +263,7 @@ namespace GraphicalProgammingLanguage
                 case "fillin": // switch to using brush for shapes and filling in the shapes rather than just the outline
                     fillIn = true;
                     break;
-                case "Unfill":// switch back to just drawing the outline and not filling in the shape
+                case "unfill":// switch back to just drawing the outline and not filling in the shape
                     fillIn = false;
                     break;
                 case "moveto":// move the pen postion to the new values
@@ -361,7 +352,7 @@ namespace GraphicalProgammingLanguage
                     string condition = args[2];
                     bool ifResult = IsIfStatementTrue(left, condition, right);// check if the condition is correct depending on the operator
                     int ifStartLine = (GetIfStartLineNumber(commands));
-                    int ifEndLine = (GetEndifEndLineNumber(commands) - 1);
+                    int ifEndLine = (GetEndifLineNumber(commands) - 1);
                     blockEndLine = ifEndLine; // get end of block so that we dont parse over the same lines again
                     if (ifResult == true)
                     {
@@ -436,7 +427,7 @@ namespace GraphicalProgammingLanguage
         /// </summary>
         /// <param name="commands">The user input from the textbox</param>
         /// <returns>Integer value of the last command in the if block</returns>
-        public int GetEndifEndLineNumber(TextBox commands)
+        public int GetEndifLineNumber(TextBox commands)
         {
             int numberOfLines = commands.Lines.Length;
 
