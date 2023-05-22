@@ -29,7 +29,7 @@ namespace UnitTestProject1
             }
             catch (Exception ex)
             {
-                Assert.Fail("Expected no exception, but got: " + ex.Message);
+                Assert.Fail("Expected no exception, but got: " + ex.Message);// nothing to assert for this test other than no exceptions were thrown if they were then catch and fail test.
             }
         }
 
