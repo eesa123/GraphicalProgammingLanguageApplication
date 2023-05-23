@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphicalProgammingLanguage</name>
+    </assembly>
+    <members>
+        <member name="T:GraphicalProgammingLanguage.Circle">
+            <summary>
+            Circle class used to draw circle shapes in application.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Circle.#ctor">
+            <summary>
+            Empty constructor used for Factory class.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Circle.Draw(System.Drawing.Graphics,System.Drawing.Pen,System.Drawing.Brush)">
+            <summary>
+            Draws the circle shape in the application.
+            </summary>
+            <param name="g"> Graphics for the drawing panel</param>
+            <param name="pen"> Drawing pen for drawing shape outlines</param>
+            <param name="brush"> Drawing brush used for filling in shapes</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Circle.Set(System.Int32[])">
+            <summary>
+            Sets the radius and x, y co-ordinates of the shape object used for Factory and Shape class instantiating.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.CommandValidator">
+            <summary>
+            Class which will be used to parse commands and validate them accordingly.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.#ctor(System.Windows.Forms.TextBox)">
+            <summary>
+            Constructor which takes Textbox object and validates the commands within it.
+            </summary>
+            <param name="commands">Textbox from Form class which contains text commands.</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.Validate(System.Boolean)">
+            <summary>
+            Validate commands line by line
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.CheckLoopAndIfValidation">
+            <summary>
+            Check the textbox and see if it has an if or for loop statement and then
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.CheckLineValidation(System.String)">
+            <summary>
+            Validates each line in the commands passed in.
+            </summary>
+            <param name="command">This is each line passed in from the textbox on its own as a string object</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.CheckIfVariableDefined(System.String)">
+            <summary>
+            Check if variable string given is defined and return value
+            </summary>
+            <param name="variable">The variable name string that is being checked</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.IsMathematicalOperatationOrAssignment(System.String)">
+            <summary>
+            Returns the value and position of the variable in the list
+            </summary>
+            <param name="variable">The variable name string that is being checked</param>
+            <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.GetDefinedVariableValueAndPosition(System.String)">
+            <summary>
+            Returns the value and position of the variable in the list
+            </summary>
+            <param name="variable">The variable name string that is being checked</param>
+            <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.CommandValidator.DoesInvalidCommandExists">
+            <summary>
+            Returns if there was an invalid command entered when validating the commands
+            </summary>
+            <returns>Boolean value of invalidCommandExists attribute detailing if an invalid command was in the textbox object that was validated</returns>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Factory">
+            <summary>
+            Factory class used to instanstiate objects based on shape type parameter passed in.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Factory.GetShape(System.String)">
+            <summary>
+            Static method which returns given shape object depending on parameter passed in.
+            </summary>
+            <param name="shapeType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Form1">
+            <summary>
+            Form Class used to control application actions and events.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.#ctor">
+            <summary>
+            Constructor initializing component and graphics and pen and brush
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.RunButton(System.Object,System.EventArgs)">
+            <summary>
+            Method that handles when run button is clicked.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.LoadButton(System.Object,System.EventArgs)">
+            <summary>
+            Method that loads text files into command panel.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.ClearButton(System.Object,System.EventArgs)">
+            <summary>
+            Method that resets command panel and command line to empty text boxes.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.SyntaxButton(System.Object,System.EventArgs)">
+            <summary>
+            Method that will check user input and the syntax and display any errors.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.SaveButton(System.Object,System.EventArgs)">
+            <summary>
+            Saves current text in command panel to a text file in a location chosen by the user. 
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.ParseCommands(System.Windows.Forms.TextBox)">
+            <summary>
+            Takes each command from textbox and and runs the command
+            </summary>
+            <param name="commands">TextBox with commands entered by user</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetAssociatedVariableValue(System.String)">
+            <summary>
+            Gets the value of the variable given
+            </summary>
+            <param name="variable">Name of the variable to get the value of</param>
+            <returns>The integer value of the variable passed in</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.RunCommand(System.String,System.Windows.Forms.TextBox)">
+            <summary>
+            Takes each command and runs it accordingly
+            </summary>
+            <param name="command">The command to run</param>
+            <param name="commands">The textbox with all the user input</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetDefinedVariableValueAndPosition(System.String)">
+            <summary>
+            Returns the value and position of the variable in the list
+            </summary>
+            <param name="variable">The variable name string that is being checked</param>
+            <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetIfStartLineNumber(System.Windows.Forms.TextBox)">
+            <summary>
+            Get the start line of the if statement
+            </summary>
+            <param name="commands">The user input from the textbox</param>
+            <returns>Integer value of the start line of the if block</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetEndifLineNumber(System.Windows.Forms.TextBox)">
+            <summary>
+            Get the end line of the if statement
+            </summary>
+            <param name="commands">The user input from the textbox</param>
+            <returns>Integer value of the last command in the if block</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.IsIfStatementTrue(System.Int32,System.String,System.Int32)">
+            <summary>
+            Check that the if statement condition is true or false
+            </summary>
+            <param name="left"> integer/variable given before the operator</param>
+            <param name="condition"> the chosen conditional operator i.e. '!='</param>
+            <param name="right"> integer/variable given after the operator</param>
+            <returns>Boolean value of whether the if statement condition is true or not</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetLoopEndLineNumber(System.Windows.Forms.TextBox)">
+            <summary>
+            Get the end line of the for loop statement
+            </summary>
+            <param name="commands">The user input from the textbox</param>
+            <returns>Integer value of the end line of the for block</returns>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.GetLoopStartLineNumber(System.Windows.Forms.TextBox)">
+            <summary>
+            Get the start line of the for loop statement
+            </summary>
+            <param name="commands">The user input from the textbox</param>
+            <returns>Integer value of the start line of the for block</returns>
+        </member>
+        <member name="F:GraphicalProgammingLanguage.Form1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Form1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Program">
+            <summary>
+            Program class to allow for entry point.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Rectangle">
+            <summary>
+            Defines the Rectangle shape as a class with width and height attributes.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Constructor to set attributes.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Rectangle.#ctor">
+            <summary>
+            Empty constructor used for Factory class.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Rectangle.Set(System.Int32[])">
+            <summary>
+            Sets x and y co ordinates as well as width and height attributes.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Rectangle.Draw(System.Drawing.Graphics,System.Drawing.Pen,System.Drawing.Brush)">
+            <summary>
+            Calls FillRectangle and DrawRectangle to draw rectangle shape at specified co-ordinates.
+            </summary>
+            <param name="g"> Graphics for the drawing panel</param>
+            <param name="pen"> Drawing pen for drawing shape outlines</param>
+            <param name="brush"> Drawing brush used for filling in shapes</param>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Shape">
+            <summary>
+            Abstract class to define common attributes and methods for all shapes that can be drawn
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Shape.#ctor">
+            <summary>
+            Used to allow empty constructors for child classes.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Shape.Set(System.Int32[])">
+            <summary>
+            Sets the x co ordinate and y co ordinate for the shape drawing start (pen position)
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Shape.SetTriangle(System.Int32,System.Int32,System.Drawing.Point[])">
+            <summary>
+            Virtual method to set triangle parameters, this will be ovewritten in the triangle class.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="points"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Shape.Draw(System.Drawing.Graphics,System.Drawing.Pen,System.Drawing.Brush)">
+            <summary>
+            Abstract method to tell the child classes what arguments should be given for this method.
+            </summary>
+            <param name="g"> Graphics for the drawing panel</param>
+            <param name="pen"> Drawing pen for drawing shape outlines</param>
+            <param name="brush"> Drawing brush used for filling in shapes</param>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Square">
+            <summary>
+            Square class that inherits from Rectangle as drawing methods are the same.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Square.#ctor(System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Constructor uses readonly length attribute to set base width and height as the same value.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="length"></param>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Triangle">
+            <summary>
+            Class used to draw triangle shapes in application.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Triangle.#ctor">
+            <summary>
+            Empty constructor used for Factory class.
+            </summary>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Triangle.SetTriangle(System.Int32,System.Int32,System.Drawing.Point[])">
+            <summary>
+            Used to set the triangle values when instantiating from Factory/Shape class
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="points"></param>
+        </member>
+        <member name="M:GraphicalProgammingLanguage.Triangle.Draw(System.Drawing.Graphics,System.Drawing.Pen,System.Drawing.Brush)">
+            <summary>
+            Used to draw the triangle shape in application.
+            </summary>
+            <param name="g"> Graphics for the drawing panel</param>
+            <param name="pen"> Drawing pen for drawing shape outlines</param>
+            <param name="brush"> Drawing brush used for filling in shapes</param>
+        </member>
+        <member name="T:GraphicalProgammingLanguage.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgammingLanguage.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:GraphicalProgammingLanguage.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>
