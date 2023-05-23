@@ -90,6 +90,7 @@ namespace UnitTestProject1
         [DataRow("if 20 == 20 than")]
         [DataRow("var c = -100")]
         [DataRow("var c +")]
+        [DataRow("var c + 3 + 5 + x")]
         [DataRow("var c ! 23")]
         [DataRow("var c + 12 345 45656")]
         [DataRow("var c - 1000000")]
@@ -161,6 +162,23 @@ namespace UnitTestProject1
             validation.CheckIfVariableDefined("radius");
             realOutcome = validation.DoesInvalidCommandExists();
             Assert.AreEqual(expectedOutcome, realOutcome);
+        }
+
+        //Testing if it validates a variable
+        [TestMethod()]
+        [DataRow("var c = 100")]
+        [DataRow("")]
+        public void InvalidVariablesGetDefinedVariableValueAndPositionTest(String input)
+        {
+            TextBox textbox = new TextBox{Text = input};
+            CommandValidator validation = new CommandValidator(textbox);
+            bool expectedOutcome = false;
+            validation.Validate();// initialise variable
+            Tuple<int, int> valueAndPosition = validation.GetDefinedVariableValueAndPosition("somethingRandom");
+            bool realOutcome = validation.DoesInvalidCommandExists();
+            Assert.AreEqual(expectedOutcome, realOutcome);
+            Assert.AreEqual(-10000, valueAndPosition.Item1);
+            Assert.AreEqual(-1, valueAndPosition.Item2);
         }
     }
 }
