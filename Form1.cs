@@ -235,13 +235,21 @@ namespace GraphicalProgammingLanguage
                     y = point2;// update y value
                     break;
                 case "colour":
-                    int red = GetAssociatedVariableValue(args[1]);
-                    int blue = GetAssociatedVariableValue(args[2]);
-                    int green = GetAssociatedVariableValue(args[3]);
-                    pencol = Color.FromArgb(red, blue, green);// get colour using RGB values
-                    drawingPen.Color = pencol;// set pen colour
-                    drawingBrush = new SolidBrush(pencol);// set brush to new object of new colour
-                    break;
+                    try
+                    {
+                        int red = GetAssociatedVariableValue(args[1]);
+                        int blue = GetAssociatedVariableValue(args[2]);
+                        int green = GetAssociatedVariableValue(args[3]);
+                        pencol = Color.FromArgb(red, blue, green);// get colour using RGB values
+                        drawingPen.Color = pencol;// set pen colour
+                        drawingBrush = new SolidBrush(pencol);// set brush to new object of new colour
+                    }
+                    catch
+                    {
+                        pencol = Color.Black;// in case of any exception when getting colour default to black
+                        drawingPen.Color = pencol;
+                        drawingBrush = new SolidBrush(pencol);
+                    }
                 case "triangle":
                     int p1 = GetAssociatedVariableValue(args[1]);
                     int p2 = GetAssociatedVariableValue(args[2]);
