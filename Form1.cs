@@ -250,6 +250,7 @@ namespace GraphicalProgammingLanguage
                         drawingPen.Color = pencol;
                         drawingBrush = new SolidBrush(pencol);
                     }
+                    break;
                 case "triangle":
                     int p1 = GetAssociatedVariableValue(args[1]);
                     int p2 = GetAssociatedVariableValue(args[2]);
