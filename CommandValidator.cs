@@ -610,7 +610,7 @@ namespace GraphicalProgammingLanguage
         /// <summary>
         /// Returns the value and position of the variable in the list
         /// </summary>
-        /// <param name="variable">The variable name string that is being checked</param>
+        /// <param name="subCommand">The variable name string that is being checked</param>
         /// <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
         public char IsMathematicalOperatationOrAssignment(string subCommand)
         {
