@@ -608,10 +608,10 @@ namespace GraphicalProgammingLanguage
         }
 
         /// <summary>
-        /// Returns the given operator as a Character object
+        /// Checks the subcommand to see what operator is used.
         /// </summary>
         /// <param name="subCommand">The variable name string that is being checked</param>
-        /// <returns>Returns the integer value of the variable and the position it is stored at in the list</returns>
+        /// <returns>Returns the Character object of the operator used in the command</returns>
         public char IsMathematicalOperatationOrAssignment(string subCommand)
         {
 
